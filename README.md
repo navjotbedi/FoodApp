@@ -16,7 +16,8 @@ This project uses a number of open source projects to work properly:
 
 ### Installation
 
-Calorie App requires [Android Studio](https://developer.android.com/studio/install) v4+ to run. Open the project in Android Studio, sync the gradle file and run the project.
+Calorie App requires [Android Studio](https://developer.android.com/studio/install) v4+ to run. Open
+the project in Android Studio, sync the gradle file and run the project.
 
 ### Todos
 
@@ -24,10 +25,17 @@ Calorie App requires [Android Studio](https://developer.android.com/studio/insta
 - Improved network error messages
 
   [Retrofit]: <https://square.github.io/retrofit/>
+
   [Hilt]: <https://developer.android.com/training/dependency-injection/hilt-android>
+
   [RxKotlin]: <https://github.com/ReactiveX/RxKotlin>
+
   [Room]: <https://developer.android.com/topic/libraries/architecture/room>
+
   [ViewModel]: <https://developer.android.com/topic/libraries/architecture/viewmodel>
+
   [Moshi]: <https://github.com/square/moshi>
+
   [Fragment Navigation]: <https://developer.android.com/jetpack/androidx/releases/navigation>
+
   [Live Data]: <https://developer.android.com/topic/libraries/architecture/livedata>
