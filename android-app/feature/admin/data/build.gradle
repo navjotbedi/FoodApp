@@ -1,0 +1,23 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm"
+    id 'kotlin-kapt'
+    id 'com.apollographql.apollo3'
+}
+
+apollo {
+    packageName.set("com.toptal.calorie.feature.admin.data")
+}
+
+dependencies {
+    api project(":feature:admin:domain")
+    implementation project(":core:utils")
+    implementation project(":core:network")
+    implementation project(":core:cache")
+
+    implementation "com.google.dagger:hilt-core:$rootProject.hiltVersion"
+    implementation "com.google.dagger:hilt-compiler:$rootProject.hiltVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutineVersion"
+
+    implementation "com.apollographql.apollo3:apollo-runtime:3.5.0"
+    implementation 'com.apollographql.apollo:apollo-coroutines-support:2.5.12'
+}

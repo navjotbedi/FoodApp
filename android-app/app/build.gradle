@@ -39,12 +39,16 @@ android {
 }
 
 dependencies {
+    // Core
     implementation project(":core:network")
     implementation project(":core:cache")
+
+    // Features
     implementation project(":feature:home:ui")
     implementation project(":feature:login:ui")
+    implementation project(":feature:admin:ui")
 
-    // Core
+    // DI
     implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$rootProject.hiltVersion"
 
