@@ -1,6 +1,8 @@
 package com.toptal.calorie.feature.login.data.di
 
 import com.toptal.calorie.feature.login.data.LoginRepositoryImpl
+import com.toptal.calorie.feature.login.data.local.LoginLocalDataSource
+import com.toptal.calorie.feature.login.data.local.LoginLocalDataSourceImpl
 import com.toptal.calorie.feature.login.data.remote.LoginRemoteDataSource
 import com.toptal.calorie.feature.login.data.remote.LoginRemoteDataSourceImpl
 import com.toptal.calorie.feature.login.domain.di.LoginDomainModule
@@ -18,5 +20,8 @@ abstract class LoginRepositoryModule {
 
     @Binds
     internal abstract fun bindLoginRemoteRepository(loginRemoteDataSourceImpl: LoginRemoteDataSourceImpl): LoginRemoteDataSource
+
+    @Binds
+    internal abstract fun bindLoginLocalRepository(loginLocalDataSourceImpl: LoginLocalDataSourceImpl): LoginLocalDataSource
 
 }

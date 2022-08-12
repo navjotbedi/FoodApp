@@ -1,0 +1,13 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm"
+    id 'kotlin-kapt'
+}
+
+dependencies {
+    // Hilt
+    implementation "com.google.dagger:hilt-core:$rootProject.hiltVersion"
+    implementation "com.google.dagger:hilt-compiler:$rootProject.hiltVersion"
+
+    // Cache
+    implementation "androidx.datastore:datastore-preferences-core:1.0.0"
+}

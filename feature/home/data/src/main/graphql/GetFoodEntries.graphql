@@ -1,5 +1,10 @@
-query UserQuery {
-    users {
-        id
+query FoodListQuery($userId: ID!) {
+    users(id: $userId) {
+        foods {
+            id
+            name
+            calorie
+            intakeDate
+        }
     }
 }

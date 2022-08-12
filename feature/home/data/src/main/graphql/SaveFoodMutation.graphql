@@ -1,0 +1,11 @@
+mutation CreateFoodMutation($name: String!, $calorie: Int!) {
+    createFood(input: {
+        name: $name
+        calorie: $calorie
+    }) {
+        name
+        id
+        intakeDate
+        calorie
+    }
+}

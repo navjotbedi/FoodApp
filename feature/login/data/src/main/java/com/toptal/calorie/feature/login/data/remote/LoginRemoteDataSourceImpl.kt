@@ -17,8 +17,8 @@ internal class LoginRemoteDataSourceImpl @Inject constructor(
         return apiServiceCreator.getApolloClient().mutation(LoginMutation(userId)).toFlow()
             .map { response ->
                 response.data?.let {
-                    loginDomainMapper.map(it)
-                } ?: throw Exception()
+                    return@map loginDomainMapper.map(it)
+                } ?: throw Exception(response.errors?.get(0)?.message)
             }
     }
 

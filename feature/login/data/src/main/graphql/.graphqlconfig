@@ -1,16 +1,4 @@
 {
   "name": "Login GraphQL Schema",
-  "schemaPath": "schema.sdl",
-  "extensions": {
-    "endpoints": {
-      "Default GraphQL Endpoint": {
-        "url": "http://localhost:4000/",
-        "headers": {
-          "user-agent": "JS GraphQL",
-          "Authorization": "Bearer 62f413368ecac10bac5ff4ab"
-        },
-        "introspect": false
-      }
-    }
-  }
+  "schemaPath": "schema.sdl"
 }

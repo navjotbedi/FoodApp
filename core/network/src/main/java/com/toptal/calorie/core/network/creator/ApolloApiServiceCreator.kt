@@ -11,6 +11,12 @@ internal class ApolloApiServiceCreator @Inject constructor(private val appConfig
 
     private fun getOkHttp() = OkHttpClient.Builder().apply {
         addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
+        addInterceptor { chain ->
+            val newRequest = chain.request().newBuilder()
+                .addHeader("Authorization", "Bearer 62f413368ecac10bac5ff4ab")
+                .build()
+            chain.proceed(newRequest)
+        }
     }.build()
 
     override fun getApolloClient() = ApolloClient.Builder()

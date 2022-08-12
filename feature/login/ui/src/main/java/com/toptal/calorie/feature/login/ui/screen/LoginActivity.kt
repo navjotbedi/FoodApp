@@ -1,12 +1,80 @@
 package com.toptal.calorie.feature.login.ui.screen
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import com.toptal.calorie.feature.login.ui.R
+import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
+import com.toptal.calorie.core.utils.ResultState
+import com.toptal.calorie.feature.login.domain.entity.USER_ROLE
+import com.toptal.calorie.feature.login.ui.databinding.ActivityLoginBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityLoginBinding
+    private val viewModel: LoginViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        checkLoginSession()
+
+        setupUI()
+        setupListeners()
+    }
+
+    private fun checkLoginSession() {
+        viewModel.fetchLoggedInUserType()
+    }
+
+    private fun setupListeners() {
+        with(binding) {
+            loginButton.setOnClickListener {
+                viewModel.login(usernameEdittext.text.toString())
+            }
+
+            usernameEdittext.addTextChangedListener {
+                loginButton.isEnabled = it?.isNotBlank() ?: false
+            }
+
+            viewModel.performLogin.observe(this@LoginActivity) {
+                when (it) {
+                    is ResultState.Success -> {
+                        startActivity(Intent(this@LoginActivity, Class.forName("com.toptal.calorie.feature.home.ui.screen.foodlist.HomeActivity")))
+                        finish()
+                    }
+                    is ResultState.Progress -> loginButton.isEnabled = !it.isLoading
+                    is ResultState.Error -> Toast.makeText(this@LoginActivity, it.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            viewModel.currentUserType.observe(this@LoginActivity) {
+                when (it) {
+                    is ResultState.Success -> {
+                        it.data?.let { userRole ->
+                            startActivity(
+                                Intent(
+                                    this@LoginActivity, Class.forName(
+                                        when (userRole) {
+                                            USER_ROLE.USER -> "com.toptal.calorie.feature.home.ui.screen.foodlist.HomeActivity"
+                                            USER_ROLE.ADMIN -> "com.toptal.calorie.feature.home.ui.screen.foodlist.HomeActivity"
+                                        }
+                                    )
+                                )
+                            )
+                            finish()
+                        }
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    private fun setupUI() {
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 }

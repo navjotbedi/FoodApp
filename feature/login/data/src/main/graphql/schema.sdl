@@ -8,12 +8,17 @@ enum CacheControlScope {
 }
 
 type Mutation{
-    login(id: ID!): User!
+    login(id: ID!): Login!
 }
 
 enum Role {
     ADMIN
     USER
+}
+
+type Login {
+    token: String!
+    user: User!
 }
 
 type User{

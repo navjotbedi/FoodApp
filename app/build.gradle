@@ -40,10 +40,14 @@ android {
 
 dependencies {
     implementation project(":core:network")
+    implementation project(":core:cache")
     implementation project(":feature:home:ui")
     implementation project(":feature:login:ui")
 
     // Core
     implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$rootProject.hiltVersion"
+
+    // Cache
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 }

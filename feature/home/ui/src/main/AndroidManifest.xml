@@ -4,8 +4,12 @@
 
     <application>
         <activity
-            android:name=".screen.HomeActivity"
-            android:exported="true"/>
+            android:name=".screen.foodlist.HomeActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".screen.addfood.AddFoodActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

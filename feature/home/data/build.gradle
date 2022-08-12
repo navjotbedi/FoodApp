@@ -22,6 +22,7 @@ dependencies {
     api project(":feature:home:domain")
     implementation project(":core:utils")
     implementation project(":core:network")
+    implementation project(":core:cache")
 
     implementation "com.google.dagger:hilt-core:$rootProject.hiltVersion"
     implementation "com.google.dagger:hilt-compiler:$rootProject.hiltVersion"

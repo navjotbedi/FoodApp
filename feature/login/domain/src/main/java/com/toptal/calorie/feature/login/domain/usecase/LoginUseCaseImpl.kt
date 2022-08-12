@@ -5,4 +5,5 @@ import javax.inject.Inject
 
 class LoginUseCaseImpl @Inject constructor(private val loginRepository: LoginRepository) : LoginUseCase {
     override fun login(userId: String) = loginRepository.login(userId)
+    override fun getLoggedInUserType() = loginRepository.getLoggedInUserType()
 }

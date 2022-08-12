@@ -1,14 +1,14 @@
-package com.toptal.calorie.feature.home.ui.screen
+package com.toptal.calorie.feature.home.ui.screen.foodlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.toptal.calorie.feature.home.ui.databinding.ItemFoodBinding
 import com.toptal.calorie.feature.home.ui.entity.Food
 
-class FoodListAdapter : PagingDataAdapter<Food, FoodListAdapter.ViewHolder>(DiffCallback()) {
+class FoodListAdapter : ListAdapter<Food, FoodListAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(ItemFoodBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
@@ -16,10 +16,10 @@ class FoodListAdapter : PagingDataAdapter<Food, FoodListAdapter.ViewHolder>(Diff
         getItem(position)?.let { holder.bind(it) }
     }
 
-
     inner class ViewHolder(private val binding: ItemFoodBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(image: Food) {
+        fun bind(food: Food) {
             with(binding) {
+                foodModel = food
                 executePendingBindings()
             }
         }

@@ -8,65 +8,46 @@ enum CacheControlScope {
 }
 
 type Food{
-        id: ID!
-        name: String!
-        calorie: Int!
-        intakeDate: String!
-        user: User!
-    }
+    id: ID!
+    name: String!
+    calorie: Int!
+    intakeDate: String!
+    user: User!
+}
 
-    input CreateFoodInput{
-        name: String!
-        calorie: Float!
-    }
+input CreateFoodInput{
+    name: String!
+    calorie: Int!
+}
 
-    input UpdateFoodInput{
-        name: String
-        calorie: Float
-    }
+input UpdateFoodInput{
+    name: String
+    calorie: Int
+}
 
-    type DeleteFood{
-        id: ID!
-    }
+type DeleteFood{
+    id: ID!
+}
 
-    type Mutation{
-        createFood(input: CreateFoodInput!): Food!
-        updateFood(id: ID, input: UpdateFoodInput!): Food!
-        deleteFood(id: ID): DeleteFood!
-
-        createUser(input: CreateUserInput!): User!
-        updateUser(id: ID, input: UpdateUserInput!): User!
-        deleteUser(id: ID): DeleteUser!
-    }
+type Mutation{
+    createFood(input: CreateFoodInput!): Food!
+    updateFood(id: ID, input: UpdateFoodInput!): Food!
+    deleteFood(id: ID): DeleteFood!
+}
 
 
- enum Role {
-         ADMIN
-         USER
-     }
+enum Role {
+    ADMIN
+    USER
+}
 
-     type User{
-         id: ID!
-         name: String!
-         role: Role!
-         foods: [Food]
-     }
+type User{
+    id: ID!
+    name: String!
+    role: Role!
+    foods: [Food]
+}
 
-     type Query{
-         users(id: String): [User]
-         foods: [Food]
-     }
-
-     input CreateUserInput{
-         name: String!
-         role: Role!
-     }
-
-     input UpdateUserInput{
-         name: String
-         role: Role
-     }
-
-     type DeleteUser{
-         id: ID!
-     }
+type Query{
+    users(id: ID): [User]
+}
