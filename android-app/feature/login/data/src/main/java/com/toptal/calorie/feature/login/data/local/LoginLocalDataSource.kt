@@ -1,10 +1,10 @@
 package com.toptal.calorie.feature.login.data.local
 
+import com.toptal.calorie.core.utils.USER_ROLE
 import com.toptal.calorie.feature.login.domain.entity.LoginDomainModel
-import com.toptal.calorie.feature.login.domain.entity.USER_ROLE
 import kotlinx.coroutines.flow.Flow
 
 interface LoginLocalDataSource {
-    fun storeUserDetails(loginDomainModel: LoginDomainModel): Flow<Unit>
+    fun storeUserDetails(loginDomainModel: LoginDomainModel): Flow<USER_ROLE>
     fun getLoggedInUserType(): Flow<USER_ROLE?>
 }

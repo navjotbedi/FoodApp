@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.toptal.calorie.core.utils.Constants.USER_ID_INTENT
 import com.toptal.calorie.core.utils.ResultState
 import com.toptal.calorie.feature.home.ui.databinding.ActivityHomeBinding
 import com.toptal.calorie.feature.home.ui.screen.addfood.AddFoodActivity
@@ -25,7 +26,7 @@ class HomeActivity : AppCompatActivity() {
 
         setupUI()
         setupListeners()
-        loadFoodList()
+        loadFoodList(intent.getStringExtra(USER_ID_INTENT))
     }
 
     private fun setupListeners() {
@@ -39,7 +40,7 @@ class HomeActivity : AppCompatActivity() {
 
         with(binding) {
             swipeRefresh.setOnRefreshListener {
-                loadFoodList()
+                loadFoodList(intent.getStringExtra(USER_ID_INTENT))
             }
 
             addFoodButton.setOnClickListener {
@@ -55,5 +56,5 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadFoodList() = viewModel.fetchFoodList()
+    private fun loadFoodList(userId: String?) = viewModel.fetchFoodList(userId)
 }

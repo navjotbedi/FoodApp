@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.toptal.calorie.core.utils.ResultState
-import com.toptal.calorie.feature.login.domain.entity.USER_ROLE
+import com.toptal.calorie.core.utils.USER_ROLE
 import com.toptal.calorie.feature.login.ui.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,7 +19,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        checkLoginSession()
+//        checkLoginSession()
 
         setupUI()
         setupListeners()
@@ -41,10 +41,7 @@ class LoginActivity : AppCompatActivity() {
 
             viewModel.performLogin.observe(this@LoginActivity) {
                 when (it) {
-                    is ResultState.Success -> {
-                        startActivity(Intent(this@LoginActivity, Class.forName("com.toptal.calorie.feature.home.ui.screen.foodlist.HomeActivity")))
-                        finish()
-                    }
+                    is ResultState.Success -> it.data?.let { userRole -> performNavigation(userRole) }
                     is ResultState.Progress -> loginButton.isEnabled = !it.isLoading
                     is ResultState.Error -> Toast.makeText(this@LoginActivity, it.message, Toast.LENGTH_SHORT).show()
                 }
@@ -52,25 +49,25 @@ class LoginActivity : AppCompatActivity() {
 
             viewModel.currentUserType.observe(this@LoginActivity) {
                 when (it) {
-                    is ResultState.Success -> {
-                        it.data?.let { userRole ->
-                            startActivity(
-                                Intent(
-                                    this@LoginActivity, Class.forName(
-                                        when (userRole) {
-                                            USER_ROLE.USER -> "com.toptal.calorie.feature.home.ui.screen.foodlist.HomeActivity"
-                                            USER_ROLE.ADMIN -> "com.toptal.calorie.feature.home.ui.screen.foodlist.HomeActivity"
-                                        }
-                                    )
-                                )
-                            )
-                            finish()
-                        }
-                    }
+                    is ResultState.Success -> it.data?.let { userRole -> performNavigation(userRole) }
                     else -> {}
                 }
             }
         }
+    }
+
+    private fun performNavigation(userRole: USER_ROLE) {
+        startActivity(
+            Intent(
+                this@LoginActivity, Class.forName(
+                    when (userRole) {
+                        USER_ROLE.USER -> "com.toptal.calorie.feature.home.ui.screen.foodlist.HomeActivity"
+                        USER_ROLE.ADMIN -> "com.toptal.calorie.feature.admin.ui.screen.UserListActivity"
+                    }
+                )
+            )
+        )
+        finish()
     }
 
     private fun setupUI() {

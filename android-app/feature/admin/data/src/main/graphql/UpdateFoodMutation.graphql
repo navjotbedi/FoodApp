@@ -1,0 +1,13 @@
+mutation UpdateFoodMutation($foodId: ID!, $name: String!, $calorie: Int!) {
+    updateFood(
+        id: $foodId,
+        input: {
+            name: $name
+            calorie: $calorie
+        }) {
+        name
+        id
+        intakeDate
+        calorie
+    }
+}

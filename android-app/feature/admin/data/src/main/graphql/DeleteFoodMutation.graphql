@@ -1,0 +1,5 @@
+mutation DeleteFoodMutation($foodId: ID!) {
+    deleteFood(id: $foodId) {
+        id
+    }
+}

@@ -1,0 +1,53 @@
+directive @cacheControl(
+    maxAge: Int
+    scope: CacheControlScope
+) on FIELD_DEFINITION | OBJECT | INTERFACE
+enum CacheControlScope {
+    PUBLIC
+    PRIVATE
+}
+
+type Food{
+    id: ID!
+    name: String!
+    calorie: Int!
+    intakeDate: String!
+    user: User!
+}
+
+input CreateFoodInput{
+    name: String!
+    calorie: Int!
+}
+
+input UpdateFoodInput{
+    name: String
+    calorie: Int
+}
+
+type DeleteFood{
+    id: ID!
+}
+
+type Mutation{
+    createFood(input: CreateFoodInput!): Food!
+    updateFood(id: ID, input: UpdateFoodInput!): Food!
+    deleteFood(id: ID): DeleteFood!
+}
+
+
+enum Role {
+    ADMIN
+    USER
+}
+
+type User{
+    id: ID!
+    name: String!
+    role: Role!
+    foods: [Food]
+}
+
+type Query{
+    users(id: ID): [User]
+}

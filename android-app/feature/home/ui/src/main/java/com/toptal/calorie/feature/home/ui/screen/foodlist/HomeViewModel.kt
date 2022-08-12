@@ -23,9 +23,9 @@ class HomeViewModel @Inject constructor(
     private val _foodItems = MutableLiveData<ResultState<List<Food>>>()
     val foodItems: LiveData<ResultState<List<Food>>> = _foodItems
 
-    fun fetchFoodList() {
+    fun fetchFoodList(userId: String?) {
         viewModelScope.launch {
-            (foodUseCase.fetchFoodItems()
+            (foodUseCase.fetchFoodItems(userId)
                 .map { it.map { foodDomainModel -> mapper.map(foodDomainModel) } }
                 .map { ResultState.Success(it) } as Flow<ResultState<List<Food>>>)
                 .catch {

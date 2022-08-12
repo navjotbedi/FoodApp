@@ -4,6 +4,8 @@ plugins {
 }
 
 dependencies {
+    implementation project(":core:utils")
+
     implementation "com.google.dagger:hilt-core:$rootProject.hiltVersion"
     implementation "com.google.dagger:hilt-compiler:$rootProject.hiltVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutineVersion"

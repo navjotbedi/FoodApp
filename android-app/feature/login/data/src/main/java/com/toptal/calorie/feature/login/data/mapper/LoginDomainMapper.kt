@@ -1,10 +1,10 @@
 package com.toptal.calorie.feature.login.data.mapper
 
 import com.toptal.calorie.core.utils.Mapper
+import com.toptal.calorie.core.utils.USER_ROLE
 import com.toptal.calorie.feature.login.data.LoginMutation
 import com.toptal.calorie.feature.login.data.type.Role
 import com.toptal.calorie.feature.login.domain.entity.LoginDomainModel
-import com.toptal.calorie.feature.login.domain.entity.USER_ROLE
 import javax.inject.Inject
 
 class LoginDomainMapper @Inject constructor() : Mapper<LoginMutation.Data, LoginDomainModel>() {

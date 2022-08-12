@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.toptal.calorie.core.utils.ResultState
-import com.toptal.calorie.feature.login.domain.entity.USER_ROLE
+import com.toptal.calorie.core.utils.USER_ROLE
 import com.toptal.calorie.feature.login.domain.usecase.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,13 +19,13 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
     private val _currentUserType = MutableLiveData<ResultState<USER_ROLE>>()
     val currentUserType: LiveData<ResultState<USER_ROLE>> = _currentUserType
 
-    private val _performLogin = MutableLiveData<ResultState<Unit>>()
-    val performLogin: LiveData<ResultState<Unit>> = _performLogin
+    private val _performLogin = MutableLiveData<ResultState<USER_ROLE>>()
+    val performLogin: LiveData<ResultState<USER_ROLE>> = _performLogin
 
     fun login(username: String) {
         viewModelScope.launch {
             (loginUseCase.login(username)
-                .map { ResultState.Success(it) } as Flow<ResultState<Unit>>)
+                .map { ResultState.Success(it) } as Flow<ResultState<USER_ROLE>>)
                 .catch {
                     it.printStackTrace()
                     emit(ResultState.Error(it, "Something went wrong!"))
