@@ -23,7 +23,16 @@ class HomeViewModel @Inject constructor(
     private val _foodItems = MutableLiveData<ResultState<List<Food>>>()
     val foodItems: LiveData<ResultState<List<Food>>> = _foodItems
 
-    fun fetchFoodList(userId: String?) {
+    var userId: String? = null
+        private set
+
+    fun storeUserId(userId: String?) {
+        this.userId = userId
+    }
+
+    fun isAdmin() = userId != null
+
+    fun fetchFoodList() {
         viewModelScope.launch {
             (foodUseCase.fetchFoodItems(userId)
                 .map { it.map { foodDomainModel -> mapper.map(foodDomainModel) } }

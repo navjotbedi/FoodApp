@@ -7,6 +7,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.toptal.calorie.core.utils.Constants.FOOD_CALORIE_INTENT
+import com.toptal.calorie.core.utils.Constants.FOOD_ID_INTENT
+import com.toptal.calorie.core.utils.Constants.FOOD_NAME_INTENT
 import com.toptal.calorie.core.utils.Constants.USER_ID_INTENT
 import com.toptal.calorie.core.utils.ResultState
 import com.toptal.calorie.feature.home.ui.databinding.ActivityHomeBinding
@@ -26,7 +29,7 @@ class HomeActivity : AppCompatActivity() {
 
         setupUI()
         setupListeners()
-        loadFoodList(intent.getStringExtra(USER_ID_INTENT))
+        loadFoodList()
     }
 
     private fun setupListeners() {
@@ -39,22 +42,26 @@ class HomeActivity : AppCompatActivity() {
         }
 
         with(binding) {
-            swipeRefresh.setOnRefreshListener {
-                loadFoodList(intent.getStringExtra(USER_ID_INTENT))
-            }
-
-            addFoodButton.setOnClickListener {
-                startActivity(Intent(this@HomeActivity, AddFoodActivity::class.java))
-            }
+            swipeRefresh.setOnRefreshListener { loadFoodList() }
+            addFoodButton.setOnClickListener { startActivity(Intent(this@HomeActivity, AddFoodActivity::class.java)) }
         }
     }
 
     private fun setupUI() {
+        viewModel.storeUserId(intent.getStringExtra(USER_ID_INTENT))
         with(binding.foodList) {
-            adapter = FoodListAdapter()
+            adapter = if (viewModel.isAdmin()) {
+                FoodListAdapter { food ->
+                    startActivity(Intent(this@HomeActivity, AddFoodActivity::class.java).also {
+                        it.putExtra(FOOD_ID_INTENT, food.id)
+                        it.putExtra(FOOD_NAME_INTENT, food.name)
+                        it.putExtra(FOOD_CALORIE_INTENT, food.calorie)
+                    })
+                }
+            } else FoodListAdapter()
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
     }
 
-    private fun loadFoodList(userId: String?) = viewModel.fetchFoodList(userId)
+    private fun loadFoodList() = viewModel.fetchFoodList()
 }

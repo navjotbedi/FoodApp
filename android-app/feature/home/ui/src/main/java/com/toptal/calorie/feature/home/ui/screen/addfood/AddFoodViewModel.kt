@@ -22,9 +22,39 @@ class AddFoodViewModel @Inject constructor(
     private val _addFood = MutableLiveData<ResultState<Unit>>()
     val addFood: LiveData<ResultState<Unit>> = _addFood
 
+    var foodId: String? = null
+        private set
+
+    fun storeFoodId(foodId: String?) {
+        this.foodId = foodId
+    }
+
+    fun isAdmin() = foodId != null
+
     fun saveFood(name: String, calorie: String) {
         viewModelScope.launch {
-            (foodUseCase.saveFood(name, calorie.toInt())
+            ((if (isAdmin())
+                foodUseCase.updateFood(foodId!!, name, calorie.toInt())
+            else
+                foodUseCase.saveFood(name, calorie.toInt()))
+                .map {
+                    ResultState.Success(Unit)
+                } as Flow<ResultState<Unit>>)
+                .catch {
+                    it.printStackTrace()
+                    emit(ResultState.Error(it, "Something went wrong!"))
+                }
+                .flowOn(Dispatchers.IO)
+                .onStart { emit(ResultState.Progress(true)) }
+                .onCompletion { emit(ResultState.Progress(false)) }
+                .conflate()
+                .collect { _addFood.value = it }
+        }
+    }
+
+    fun deleteFood() {
+        viewModelScope.launch {
+            (foodUseCase.deleteFood(foodId!!)
                 .map {
                     ResultState.Success(Unit)
                 } as Flow<ResultState<Unit>>)

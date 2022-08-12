@@ -21,7 +21,7 @@ class UserListAdapter(private val listener: ((userId: String) -> Unit)?) : ListA
             with(binding) {
                 userModel = user
                 listener?.let {
-                    binding.root.setOnClickListener {
+                    root.setOnClickListener {
                         listener.invoke(user.id)
                     }
                 }

@@ -6,5 +6,5 @@ import com.toptal.calorie.feature.home.ui.entity.Food
 import javax.inject.Inject
 
 class FoodUIMapper @Inject constructor() : Mapper<FoodDomainModel, Food>() {
-    override fun map(value: FoodDomainModel) = Food(value.name, value.intakeDate.toString(), value.calorie.toString())
+    override fun map(value: FoodDomainModel) = Food(value.id, value.name, value.calorie.toString(), value.intakeDate.toString())
 }

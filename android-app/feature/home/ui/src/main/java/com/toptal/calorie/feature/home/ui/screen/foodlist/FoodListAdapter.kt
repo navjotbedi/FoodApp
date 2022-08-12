@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.toptal.calorie.feature.home.ui.databinding.ItemFoodBinding
 import com.toptal.calorie.feature.home.ui.entity.Food
 
-class FoodListAdapter : ListAdapter<Food, FoodListAdapter.ViewHolder>(DiffCallback()) {
+class FoodListAdapter(private val listener: ((food: Food) -> Unit)? = null) : ListAdapter<Food, FoodListAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(ItemFoodBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
@@ -20,6 +20,11 @@ class FoodListAdapter : ListAdapter<Food, FoodListAdapter.ViewHolder>(DiffCallba
         fun bind(food: Food) {
             with(binding) {
                 foodModel = food
+                listener?.let {
+                    root.setOnClickListener {
+                        listener.invoke(food)
+                    }
+                }
                 executePendingBindings()
             }
         }

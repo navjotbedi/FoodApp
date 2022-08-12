@@ -43,5 +43,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/calorie_edit_text" />
 
+        <Button
+            android:id="@+id/delete_food_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete Food"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_food_button" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
