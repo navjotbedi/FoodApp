@@ -6,9 +6,7 @@ import com.toptal.calorie.feature.home.data.DeleteFoodMutation
 import com.toptal.calorie.feature.home.data.FoodListQuery
 import com.toptal.calorie.feature.home.data.UpdateFoodMutation
 import com.toptal.calorie.feature.home.data.remote.api.FoodApiMapper
-import com.toptal.calorie.feature.home.domain.entity.FoodDomainModel
 import kotlinx.coroutines.flow.map
-import java.util.*
 import javax.inject.Inject
 
 internal class FoodRemoteDataSourceImpl @Inject constructor(
@@ -23,22 +21,11 @@ internal class FoodRemoteDataSourceImpl @Inject constructor(
         }
 
     override fun saveFood(name: String, calorie: Int) = apiServiceCreator.getApolloClient().mutation(CreateFoodMutation(name, calorie)).toFlow()
-        .map { response ->
-            response.data?.createFood?.let {
-                FoodDomainModel(it.id, it.name, Date(), it.calorie)
-            }
-                ?: throw Exception(response.errors?.get(0)?.message)
-        }
+        .map { it.data?.createFood?.let {} ?: throw Exception(it.errors?.get(0)?.message) }
 
     override fun deleteFood(foodId: String) = apiServiceCreator.getApolloClient().mutation(DeleteFoodMutation(foodId)).toFlow()
-        .map { response ->
-            if (response.hasErrors()) throw Exception(response.errors?.get(0)?.message)
-            else Unit
-        }
+        .map { if (it.hasErrors()) throw Exception(it.errors?.get(0)?.message) }
 
     override fun updateFood(foodId: String, name: String, calorie: Int) = apiServiceCreator.getApolloClient().mutation(UpdateFoodMutation(foodId, name, calorie)).toFlow()
-        .map { response ->
-            if (response.hasErrors()) throw Exception(response.errors?.get(0)?.message)
-            else Unit
-        }
+        .map { if (it.hasErrors()) throw Exception(it.errors?.get(0)?.message) }
 }

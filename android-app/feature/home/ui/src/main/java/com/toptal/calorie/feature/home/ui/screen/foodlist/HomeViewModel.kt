@@ -1,17 +1,20 @@
 package com.toptal.calorie.feature.home.ui.screen.foodlist
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
+import androidx.paging.insertSeparators
+import androidx.paging.map
 import com.toptal.calorie.core.utils.ResultState
 import com.toptal.calorie.feature.home.domain.usecase.FoodUseCase
-import com.toptal.calorie.feature.home.ui.entity.Food
+import com.toptal.calorie.feature.home.ui.entity.FoodUIModel
+import com.toptal.calorie.feature.home.ui.entity.HeaderUIModel
 import com.toptal.calorie.feature.home.ui.entity.mapper.FoodUIMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,8 +23,9 @@ class HomeViewModel @Inject constructor(
     private val mapper: FoodUIMapper
 ) : ViewModel() {
 
-    private val _foodItems = MutableLiveData<ResultState<List<Food>>>()
-    val foodItems: LiveData<ResultState<List<Food>>> = _foodItems
+    init {
+        saveFoodList()
+    }
 
     var userId: String? = null
         private set
@@ -32,11 +36,22 @@ class HomeViewModel @Inject constructor(
 
     fun isAdmin() = userId != null
 
-    fun fetchFoodList() {
+    fun fetchFoodList() = foodUseCase.fetchFoodList()
+        .map { pagingData -> pagingData.map { withContext(Dispatchers.IO) { mapper.map(it) } } }
+        .map {
+            it.insertSeparators { oldFoodUIModel: FoodUIModel?, newFoodUIModel: FoodUIModel? ->
+                if (oldFoodUIModel?.intakeDate != null && newFoodUIModel?.intakeDate != null)
+                    if (oldFoodUIModel.intakeDate != newFoodUIModel.intakeDate) return@insertSeparators HeaderUIModel(oldFoodUIModel.intakeDate, 100)
+                return@insertSeparators null
+            }
+        }
+        .flowOn(Dispatchers.IO)
+        .cachedIn(viewModelScope)
+
+    fun saveFoodList() {
         viewModelScope.launch {
-            (foodUseCase.fetchFoodItems(userId)
-                .map { it.map { foodDomainModel -> mapper.map(foodDomainModel) } }
-                .map { ResultState.Success(it) } as Flow<ResultState<List<Food>>>)
+            (foodUseCase.saveFoodList(userId)
+                .map { ResultState.Success(it) } as Flow<ResultState<Unit>>)
                 .catch {
                     it.printStackTrace()
                     emit(ResultState.Error(it, "Something went wrong!"))
@@ -45,7 +60,7 @@ class HomeViewModel @Inject constructor(
                 .onStart { emit(ResultState.Progress(true)) }
                 .onCompletion { emit(ResultState.Progress(false)) }
                 .conflate()
-                .collect { _foodItems.value = it }
+                .collect { }
         }
     }
 

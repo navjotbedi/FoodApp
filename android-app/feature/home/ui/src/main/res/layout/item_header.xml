@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="foodModel"
-            type="com.toptal.calorie.feature.home.ui.entity.FoodUIModel" />
+            name="headerUIModel"
+            type="com.toptal.calorie.feature.home.ui.entity.HeaderUIModel" />
 
     </data>
 
@@ -16,27 +16,19 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/name_text_view"
+            android:id="@+id/date_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{foodModel.name}"
+            android:text="@{headerUIModel.displayDate}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/calorie_text_view"
+            android:id="@+id/avg_cal_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{foodModel.calorie}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name_text_view" />
-
-        <TextView
-            android:id="@+id/date_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{foodModel.intakeDate}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/calorie_text_view" />
+            android:text="@{String.valueOf(headerUIModel.averageCalorie)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

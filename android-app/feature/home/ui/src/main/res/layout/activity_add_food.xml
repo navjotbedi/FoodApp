@@ -7,7 +7,7 @@
 
         <variable
             name="foodModel"
-            type="com.toptal.calorie.feature.home.ui.entity.Food" />
+            type="com.toptal.calorie.feature.home.ui.entity.FoodUIModel" />
 
     </data>
 

@@ -45,6 +45,7 @@ dependencies {
 
     // Features
     implementation project(":feature:home:ui")
+    implementation project(":feature:home:data")
     implementation project(":feature:login:ui")
     implementation project(":feature:admin:ui")
 
@@ -54,4 +55,10 @@ dependencies {
 
     // Cache
     implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    // Database
+    implementation "androidx.room:room-ktx:$rootProject.roomVersion"
+    implementation "androidx.room:room-runtime:$rootProject.roomVersion"
+    kapt "androidx.room:room-compiler:$rootProject.roomVersion"
+    implementation "androidx.room:room-paging:$rootProject.roomVersion"
 }
