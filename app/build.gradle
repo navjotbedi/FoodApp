@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk rootProject.compileSdkVersion
 
     buildFeatures {
         viewBinding true
@@ -41,6 +41,7 @@ android {
 dependencies {
     implementation project(":core:network")
     implementation project(":feature:home:ui")
+    implementation project(":feature:login:ui")
 
     // Core
     implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"

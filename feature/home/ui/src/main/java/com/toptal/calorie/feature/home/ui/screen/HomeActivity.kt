@@ -1,5 +1,6 @@
 package com.toptal.calorie.feature.home.ui.screen
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.toptal.calorie.feature.home.ui.databinding.ActivityHomeBinding
@@ -17,6 +18,8 @@ class HomeActivity : AppCompatActivity() {
 
         setupUI()
         setupListeners()
+
+        startActivity(Intent())
     }
 
     private fun setupListeners() {

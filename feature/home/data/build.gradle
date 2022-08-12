@@ -1,12 +1,40 @@
 plugins {
-    id "org.jetbrains.kotlin.jvm"
+    id 'com.android.library'
+    id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'com.apollographql.apollo3'
+}
+
+android {
+    compileSdk rootProject.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.minSdkVersion
+        targetSdk rootProject.targetSdkVersion
+    }
+}
+
+apollo {
+    packageName.set("com.toptal.calorie.feature.home.data")
 }
 
 dependencies {
     api project(":feature:home:domain")
+    implementation project(":core:utils")
+    implementation project(":core:network")
 
     implementation "com.google.dagger:hilt-core:$rootProject.hiltVersion"
     implementation "com.google.dagger:hilt-compiler:$rootProject.hiltVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutineVersion"
+
+    // Utils
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutineVersion"
+    implementation "androidx.paging:paging-runtime-ktx:$rootProject.pagingVersion"
+
+    implementation "com.apollographql.apollo3:apollo-runtime:3.5.0"
+    implementation 'com.apollographql.apollo:apollo-coroutines-support:2.5.12'
+
+    // Database
+    implementation "androidx.room:room-common:$rootProject.roomVersion"
+    implementation "androidx.datastore:datastore-preferences-core:1.0.0"
 }

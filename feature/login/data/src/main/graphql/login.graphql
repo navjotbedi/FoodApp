@@ -1,0 +1,7 @@
+mutation LoginMutation($userId: ID!){
+    login(id: $userId){
+        id
+        name
+        role
+    }
+}

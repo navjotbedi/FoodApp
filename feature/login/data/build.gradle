@@ -1,0 +1,28 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm"
+    id 'kotlin-kapt'
+    id 'com.apollographql.apollo3'
+}
+
+apollo {
+    packageName.set("com.toptal.calorie.feature.login.data")
+}
+
+dependencies {
+    api project(":feature:login:domain")
+    implementation project(":core:utils")
+    implementation project(":core:network")
+
+    implementation "com.google.dagger:hilt-core:$rootProject.hiltVersion"
+    implementation "com.google.dagger:hilt-compiler:$rootProject.hiltVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutineVersion"
+
+    // Utils
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutineVersion"
+
+    implementation "com.apollographql.apollo3:apollo-runtime:3.5.0"
+    implementation 'com.apollographql.apollo:apollo-coroutines-support:2.5.12'
+
+    // Database
+    implementation "androidx.datastore:datastore-preferences-core:1.0.0"
+}

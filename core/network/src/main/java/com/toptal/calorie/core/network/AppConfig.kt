@@ -1,4 +1,3 @@
 package com.toptal.calorie.core.network
 
-class MyClass {
-}
+data class AppConfig(val baseUrl: String)

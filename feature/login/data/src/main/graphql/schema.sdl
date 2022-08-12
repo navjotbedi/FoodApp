@@ -1,0 +1,27 @@
+directive @cacheControl(
+    maxAge: Int
+    scope: CacheControlScope
+) on FIELD_DEFINITION | OBJECT | INTERFACE
+enum CacheControlScope {
+    PUBLIC
+    PRIVATE
+}
+
+type Mutation{
+    login(id: ID!): User!
+}
+
+enum Role {
+    ADMIN
+    USER
+}
+
+type User{
+    id: ID!
+    name: String!
+    role: Role!
+}
+
+type Query{
+   users(id: String): [User]
+}
