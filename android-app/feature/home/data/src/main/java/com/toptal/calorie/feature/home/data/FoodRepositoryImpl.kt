@@ -12,10 +12,11 @@ internal class FoodRepositoryImpl @Inject constructor(
     private val localDataSource: FoodLocalDataSource
 ) : FoodRepository {
     override fun fetchFoodList() = localDataSource.getFoodList()
+    override fun clearLocalCache() = localDataSource.clearTable()
 
     @OptIn(FlowPreview::class)
     override fun saveFoodList(userId: String?) =
-        (userId?.let { remoteDataSource.getFoodList(it) } ?: localDataSource.getUserToken().flatMapConcat { remoteDataSource.getFoodList(it) }).flatMapConcat { localDataSource.saveFoodList(it) }
+        (userId?.let { remoteDataSource.getFoodList(it) } ?: remoteDataSource.getFoodList()).flatMapConcat { localDataSource.saveFoodList(it) }
 
     override fun saveFood(name: String, calorie: Int) = remoteDataSource.saveFood(name, calorie)
     override fun deleteFood(foodId: String) = remoteDataSource.deleteFood(foodId)

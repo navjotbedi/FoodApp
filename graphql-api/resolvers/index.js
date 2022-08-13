@@ -1,6 +1,6 @@
 const mutations = require('./mutations');
 const queries = require('./queries');
-const {model} = require("mongoose");
+const {mongoose} = require("mongoose");
 const {Food} = require('../models/food');
 const {User} = require('../models/user');
 const avgCaloriesPerUser = require("./queries/avgCaloriesPerUser");

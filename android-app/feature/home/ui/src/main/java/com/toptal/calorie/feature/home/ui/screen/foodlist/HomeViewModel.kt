@@ -2,19 +2,16 @@ package com.toptal.calorie.feature.home.ui.screen.foodlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
-import androidx.paging.insertSeparators
-import androidx.paging.map
 import com.toptal.calorie.core.utils.ResultState
+import com.toptal.calorie.feature.home.domain.entity.FoodDomainModel
 import com.toptal.calorie.feature.home.domain.usecase.FoodUseCase
-import com.toptal.calorie.feature.home.ui.entity.FoodUIModel
 import com.toptal.calorie.feature.home.ui.entity.HeaderUIModel
 import com.toptal.calorie.feature.home.ui.entity.mapper.FoodUIMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,11 +19,7 @@ class HomeViewModel @Inject constructor(
     private val foodUseCase: FoodUseCase,
     private val mapper: FoodUIMapper
 ) : ViewModel() {
-
-    init {
-        saveFoodList()
-    }
-
+    var initialFetch = true
     var userId: String? = null
         private set
 
@@ -37,25 +30,17 @@ class HomeViewModel @Inject constructor(
     fun isAdmin() = userId != null
 
     fun fetchFoodList() = foodUseCase.fetchFoodList()
-        .map { pagingData -> pagingData.map { withContext(Dispatchers.IO) { mapper.map(it) } } }
-        .map {
-            it.insertSeparators { oldFoodUIModel: FoodUIModel?, newFoodUIModel: FoodUIModel? ->
-                if (newFoodUIModel == null) return@insertSeparators null
-
-                if (newFoodUIModel.intakeDate != null) {
-                    if (oldFoodUIModel == null) return@insertSeparators HeaderUIModel(newFoodUIModel.intakeDate, 100)
-                    if (oldFoodUIModel.intakeDate != null)
-                        if (oldFoodUIModel.intakeDate != newFoodUIModel.intakeDate) return@insertSeparators HeaderUIModel(newFoodUIModel.intakeDate, 100)
-                }
-                return@insertSeparators null
-            }
-        }
+        .map { computeUIModelList(it) }
         .flowOn(Dispatchers.IO)
-        .cachedIn(viewModelScope)
 
+    @OptIn(FlowPreview::class)
     fun saveFoodList() {
         viewModelScope.launch {
-            (foodUseCase.saveFoodList(userId)
+            val clearLocalCache = if (initialFetch) {
+                initialFetch = false
+                foodUseCase.clearLocalCache()
+            } else flow { emit(Unit) }
+            (clearLocalCache.flatMapConcat { foodUseCase.saveFoodList(userId) }
                 .map { ResultState.Success(it) } as Flow<ResultState<Unit>>)
                 .catch {
                     it.printStackTrace()
@@ -67,6 +52,33 @@ class HomeViewModel @Inject constructor(
                 .conflate()
                 .collect { }
         }
+    }
+
+    private fun computeUIModelList(foodDomainModelList: List<FoodDomainModel>): List<Any> {
+        val uiModel = mutableListOf<Any>()
+        var oldFoodUIDate: String? = null
+        var dailyCalorie = 0
+        var lastHeaderSection = 0
+        foodDomainModelList.forEach { foodDomainModel ->
+            val foodUIModel = mapper.map(foodDomainModel)
+            if (oldFoodUIDate != null) {
+                if (oldFoodUIDate != foodUIModel.intakeDate) {
+                    (uiModel[lastHeaderSection] as HeaderUIModel).averageCalorie = String.format("%.2f", dailyCalorie.toFloat() / (uiModel.size - lastHeaderSection - 1))
+                    uiModel.add(HeaderUIModel(foodUIModel.intakeDate!!, ""))
+                    lastHeaderSection = uiModel.size - 1
+                    dailyCalorie = 0
+                }
+            } else {
+                uiModel.add(HeaderUIModel(foodUIModel.intakeDate!!, ""))
+            }
+
+            dailyCalorie += foodDomainModel.calorie
+            uiModel.add(foodUIModel)
+            oldFoodUIDate = foodUIModel.intakeDate
+        }
+
+        if (uiModel.isNotEmpty()) (uiModel[lastHeaderSection] as HeaderUIModel).averageCalorie = String.format("%.2f", dailyCalorie.toFloat() / (uiModel.size - lastHeaderSection - 1))
+        return uiModel
     }
 
 }

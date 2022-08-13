@@ -2,15 +2,15 @@ package com.toptal.calorie.feature.home.ui.screen.foodlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.toptal.calorie.feature.home.ui.databinding.ItemFoodBinding
 import com.toptal.calorie.feature.home.ui.databinding.ItemHeaderBinding
 import com.toptal.calorie.feature.home.ui.entity.FoodUIModel
 import com.toptal.calorie.feature.home.ui.entity.HeaderUIModel
 
-class FoodListAdapter(private val listener: ((foodUIModel: FoodUIModel) -> Unit)? = null) : PagingDataAdapter<Any, RecyclerView.ViewHolder>(DiffCallback()) {
+class FoodListAdapter(private val listener: ((foodUIModel: FoodUIModel) -> Unit)? = null) : ListAdapter<Any, RecyclerView.ViewHolder>(DiffCallback()) {
 
     companion object {
         const val FOOD_HEADER_VIEW = 0

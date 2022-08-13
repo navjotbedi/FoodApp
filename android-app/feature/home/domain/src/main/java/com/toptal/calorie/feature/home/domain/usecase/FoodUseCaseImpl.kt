@@ -5,6 +5,7 @@ import javax.inject.Inject
 
 class FoodUseCaseImpl @Inject constructor(private val foodRepository: FoodRepository) : FoodUseCase {
     override fun fetchFoodList() = foodRepository.fetchFoodList()
+    override fun clearLocalCache() = foodRepository.clearLocalCache()
     override fun saveFoodList(userId: String?) = foodRepository.saveFoodList(userId)
     override fun saveFood(name: String, calorie: Int) = foodRepository.saveFood(name, calorie)
     override fun deleteFood(foodId: String) = foodRepository.deleteFood(foodId)

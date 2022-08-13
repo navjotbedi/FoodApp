@@ -1,5 +1,6 @@
 package com.toptal.calorie.feature.home.data.remote
 
+import com.apollographql.apollo3.api.Optional
 import com.toptal.calorie.core.network.creator.ApiServiceCreator
 import com.toptal.calorie.feature.home.data.CreateFoodMutation
 import com.toptal.calorie.feature.home.data.DeleteFoodMutation
@@ -13,9 +14,9 @@ internal class FoodRemoteDataSourceImpl @Inject constructor(
     private val apiServiceCreator: ApiServiceCreator,
     private val foodApiMapper: FoodApiMapper
 ) : FoodRemoteDataSource {
-    override fun getFoodList(userId: String) = apiServiceCreator.getApolloClient().query(FoodListQuery(userId)).toFlow()
+    override fun getFoodList(userId: String?) = apiServiceCreator.getApolloClient().query(FoodListQuery(Optional.presentIfNotNull(userId))).toFlow()
         .map { response ->
-            response.data?.users?.get(0)?.foods?.let { foodList ->
+            response.data?.foods?.let { foodList ->
                 foodList.mapNotNull { it?.let { foodApiMapper.map(it) } }
             } ?: throw Exception(response.errors?.get(0)?.message)
         }

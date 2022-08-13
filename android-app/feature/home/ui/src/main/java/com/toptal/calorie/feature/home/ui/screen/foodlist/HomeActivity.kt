@@ -14,7 +14,6 @@ import com.toptal.calorie.feature.home.ui.entity.FoodUIModel
 import com.toptal.calorie.feature.home.ui.screen.addfood.AddFoodActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 
@@ -31,13 +30,27 @@ class HomeActivity : AppCompatActivity() {
 
         setupUI()
         setupListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
         loadFoodList()
     }
 
     private fun setupListeners() {
         with(binding) {
             swipeRefresh.setOnRefreshListener { loadFoodList() }
-            addFoodButton.setOnClickListener { startActivity(Intent(this@HomeActivity, AddFoodActivity::class.java)) }
+            addFoodButton.setOnClickListener {
+
+                startActivity(Intent(this@HomeActivity, AddFoodActivity::class.java))
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.fetchFoodList()
+                .collectLatest {
+                    binding.swipeRefresh.isRefreshing = false
+                    (binding.foodList.adapter as? FoodListAdapter)?.submitList(it)
+                }
         }
     }
 
@@ -57,13 +70,6 @@ class HomeActivity : AppCompatActivity() {
 
     private fun loadFoodList() {
         viewModel.saveFoodList()
-        lifecycleScope.launch {
-            viewModel.fetchFoodList()
-                .distinctUntilChanged()
-                .collectLatest {
-                    (binding.foodList.adapter as? FoodListAdapter)?.submitData(it)
-                }
-        }
     }
 
 }

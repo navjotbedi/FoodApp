@@ -16,50 +16,6 @@ module.exports = async (_, {}, {models}) => {
             }
     })
 
-    let avgCalorie = await models.Food.aggregate([
-        {
-            $match:
-                {
-                    "intakeDate": {$gte: new Date(currentDate - (weekDays * 24 * 60 * 60 * 1000))}
-                }
-        },
-        {
-            $group: {
-                _id: "$user",
-                avg_cal: {$avg: "$calorie"}
-            }
-        }])
-
-    let avgCaloriePerDay = await models.Food.aggregate([
-        {
-            $match:
-                {
-                    $expr: {
-                        $gt: ["$intakeDate", {
-                            $dateSubtract:
-                                {
-                                    startDate: "$$NOW",
-                                    unit: "week",
-                                    amount: 1
-                                }
-                        }
-                        ]
-                    }
-                }
-        },
-        {
-            $group: {
-                _id: {
-                    $dateToString: {
-                        date: "$intakeDate",
-                        format: "%Y-%m-%d"
-                    }
-                },
-                avg_cal: {$avg: "$calorie"}
-            }
-        }
-    ])
-
     let z = await models.Food.find()
 
     return {currentWeek: currentWeek.length, lastWeek: lastWeek.length};

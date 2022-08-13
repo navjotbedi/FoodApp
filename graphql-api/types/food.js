@@ -10,7 +10,7 @@ module.exports = gql`
     }
 
     type Query{
-        foods: [Food]
+        foods(id: ID): [Food]
         foodReport: FoodReport
         avgCaloriesPerUser: [AvgCaloriesPerUser]
     }

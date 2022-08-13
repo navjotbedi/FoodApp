@@ -35,7 +35,6 @@ type Mutation{
     deleteFood(id: ID): DeleteFood!
 }
 
-
 enum Role {
     ADMIN
     USER
@@ -50,4 +49,5 @@ type User{
 
 type Query{
     users(id: ID): [User]
+    foods(id: ID): [Food]
 }

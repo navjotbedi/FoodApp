@@ -4,7 +4,6 @@ import com.toptal.calorie.core.utils.Mapper
 import com.toptal.calorie.feature.home.data.FoodListQuery
 import com.toptal.calorie.feature.home.domain.entity.FoodDomainModel
 import java.sql.Time
-import java.util.*
 import javax.inject.Inject
 
 class FoodApiMapper @Inject constructor() : Mapper<FoodListQuery.Food, FoodDomainModel>() {

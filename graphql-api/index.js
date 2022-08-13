@@ -21,8 +21,11 @@ const server = new ApolloServer({
         // see https://www.apollographql.com/docs/apollo-server/api/apollo-server/#middleware-specific-context-fields
 
         // Get the user token from the headers.
-        const token = req.headers.authorization.trim().split(/\s+/)[1] || '';
-        console.log("token -> " + token)
+        var token;
+        if(req.headers.authorization) {
+            token = req.headers.authorization.trim().split(/\s+/)[1] || '';
+            console.log("token -> " + token)
+        }
         // Try to retrieve a user with the token
         // const user = getUser(token);
 
