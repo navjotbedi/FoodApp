@@ -5,12 +5,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.toptal.calorie.core.utils.Constants.FOOD_CALORIE_INTENT
-import com.toptal.calorie.core.utils.Constants.FOOD_ID_INTENT
-import com.toptal.calorie.core.utils.Constants.FOOD_NAME_INTENT
+import androidx.core.widget.addTextChangedListener
+import com.toptal.calorie.core.utils.Constants.FOOD_INTENT
 import com.toptal.calorie.core.utils.ResultState
 import com.toptal.calorie.feature.home.ui.databinding.ActivityAddFoodBinding
+import com.toptal.calorie.feature.home.ui.entity.FoodUIModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.serialization.json.Json
 
 @AndroidEntryPoint
 class AddFoodActivity : AppCompatActivity() {
@@ -33,6 +34,14 @@ class AddFoodActivity : AppCompatActivity() {
             addFoodButton.setOnClickListener { viewModel.saveFood(nameEditText.text.toString(), calorieEditText.text.toString()) }
             deleteFoodButton.setOnClickListener { viewModel.deleteFood() }
 
+            nameEditText.addTextChangedListener {
+                it?.let { text -> addFoodButton.isEnabled = text.isNotEmpty() && calorieEditText.text.isNotEmpty() }
+            }
+
+            calorieEditText.addTextChangedListener {
+                it?.let { text -> addFoodButton.isEnabled = text.isNotEmpty() && nameEditText.text.isNotEmpty() }
+            }
+
             viewModel.addFood.observe(this@AddFoodActivity) {
                 when (it) {
                     is ResultState.Success -> onBackPressed()
@@ -45,9 +54,11 @@ class AddFoodActivity : AppCompatActivity() {
 
     private fun setupUI() {
         with(intent) {
-            viewModel.storeFoodId(getStringExtra(FOOD_ID_INTENT))
-            getStringExtra(FOOD_NAME_INTENT)?.let { binding.nameEditText.setText(it) }
-            getStringExtra(FOOD_CALORIE_INTENT)?.let { binding.calorieEditText.setText(it) }
+            val foodUIModel = getStringExtra(FOOD_INTENT)?.let { Json.decodeFromString(FoodUIModel.serializer(), it) }
+            foodUIModel?.let {
+                viewModel.storeFoodId(foodUIModel.id)
+                binding.foodModel = foodUIModel
+            }
             binding.addFoodButton.text = if (viewModel.isAdmin()) "Update Food" else "Add Food"
             if (viewModel.isAdmin()) binding.deleteFoodButton.visibility = View.VISIBLE
         }

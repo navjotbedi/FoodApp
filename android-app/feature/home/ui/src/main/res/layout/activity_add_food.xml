@@ -22,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Name"
+            android:inputType="text"
             android:text="@{foodModel.name}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +31,9 @@
             android:id="@+id/calorie_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:digits="0123456789"
             android:hint="Calorie"
+            android:inputType="numberSigned"
             android:text="@{foodModel.calorie}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name_edit_text" />
@@ -39,6 +42,7 @@
             android:id="@+id/add_food_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:text="Add Food"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/calorie_edit_text" />
@@ -47,7 +51,9 @@
             android:id="@+id/delete_food_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#cc0000"
             android:text="Delete Food"
+            android:textColor="@android:color/white"
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/add_food_button" />

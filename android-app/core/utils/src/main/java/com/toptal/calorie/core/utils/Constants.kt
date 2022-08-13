@@ -6,7 +6,5 @@ object Constants {
     const val USER_ROLE_PREF = "user-role-pref"
 
     const val USER_ID_INTENT = "user-id-intent"
-    const val FOOD_ID_INTENT = "food-id-intent"
-    const val FOOD_NAME_INTENT = "food-name-intent"
-    const val FOOD_CALORIE_INTENT = "food-calorie-intent"
+    const val FOOD_INTENT = "food-intent"
 }

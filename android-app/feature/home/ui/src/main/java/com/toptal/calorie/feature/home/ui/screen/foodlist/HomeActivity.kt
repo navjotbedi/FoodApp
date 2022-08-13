@@ -7,16 +7,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.toptal.calorie.core.utils.Constants.FOOD_CALORIE_INTENT
-import com.toptal.calorie.core.utils.Constants.FOOD_ID_INTENT
-import com.toptal.calorie.core.utils.Constants.FOOD_NAME_INTENT
+import com.toptal.calorie.core.utils.Constants.FOOD_INTENT
 import com.toptal.calorie.core.utils.Constants.USER_ID_INTENT
 import com.toptal.calorie.feature.home.ui.databinding.ActivityHomeBinding
+import com.toptal.calorie.feature.home.ui.entity.FoodUIModel
 import com.toptal.calorie.feature.home.ui.screen.addfood.AddFoodActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
@@ -47,9 +47,7 @@ class HomeActivity : AppCompatActivity() {
             adapter = if (viewModel.isAdmin()) {
                 FoodListAdapter { food ->
                     startActivity(Intent(this@HomeActivity, AddFoodActivity::class.java).also {
-                        it.putExtra(FOOD_ID_INTENT, food.id)
-                        it.putExtra(FOOD_NAME_INTENT, food.name)
-                        it.putExtra(FOOD_CALORIE_INTENT, food.calorie)
+                        it.putExtra(FOOD_INTENT, Json.encodeToString(FoodUIModel.serializer(), food))
                     })
                 }
             } else FoodListAdapter()

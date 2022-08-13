@@ -40,8 +40,13 @@ class HomeViewModel @Inject constructor(
         .map { pagingData -> pagingData.map { withContext(Dispatchers.IO) { mapper.map(it) } } }
         .map {
             it.insertSeparators { oldFoodUIModel: FoodUIModel?, newFoodUIModel: FoodUIModel? ->
-                if (oldFoodUIModel?.intakeDate != null && newFoodUIModel?.intakeDate != null)
-                    if (oldFoodUIModel.intakeDate != newFoodUIModel.intakeDate) return@insertSeparators HeaderUIModel(oldFoodUIModel.intakeDate, 100)
+                if (newFoodUIModel == null) return@insertSeparators null
+
+                if (newFoodUIModel.intakeDate != null) {
+                    if (oldFoodUIModel == null) return@insertSeparators HeaderUIModel(newFoodUIModel.intakeDate, 100)
+                    if (oldFoodUIModel.intakeDate != null)
+                        if (oldFoodUIModel.intakeDate != newFoodUIModel.intakeDate) return@insertSeparators HeaderUIModel(newFoodUIModel.intakeDate, 100)
+                }
                 return@insertSeparators null
             }
         }
