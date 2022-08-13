@@ -1,4 +1,4 @@
-package com.toptal.calorie.feature.admin.ui.screen
+package com.toptal.calorie.feature.admin.ui.screen.userlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

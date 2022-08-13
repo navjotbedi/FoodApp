@@ -48,6 +48,12 @@ type User{
     foods: [Food]
 }
 
+type FoodReport{
+    currentWeek: Int!
+    lastWeek: Int!
+}
+
 type Query{
     users(id: ID): [User]
+    foodReport: FoodReport
 }

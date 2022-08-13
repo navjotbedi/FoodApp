@@ -1,0 +1,6 @@
+query GetFoodReportQuery {
+    foodReport {
+        currentWeek
+        lastWeek
+    }
+}

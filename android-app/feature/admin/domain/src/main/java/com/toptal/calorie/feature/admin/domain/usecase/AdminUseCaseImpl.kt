@@ -5,4 +5,5 @@ import javax.inject.Inject
 
 class AdminUseCaseImpl @Inject constructor(private val adminRepository: AdminRepository) : AdminUseCase {
     override fun fetchUsers() = adminRepository.fetchUsers()
+    override fun fetchFoodReport() = adminRepository.fetchFoodReport()
 }

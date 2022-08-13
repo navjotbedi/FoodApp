@@ -4,7 +4,10 @@
 
     <application>
         <activity
-            android:name=".screen.UserListActivity"
+            android:name=".screen.report.ReportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screen.userlist.UserListActivity"
             android:exported="false" />
     </application>
 

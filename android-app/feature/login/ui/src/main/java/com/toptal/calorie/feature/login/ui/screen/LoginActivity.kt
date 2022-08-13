@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
                 this@LoginActivity, Class.forName(
                     when (userRole) {
                         USER_ROLE.USER -> "com.toptal.calorie.feature.home.ui.screen.foodlist.HomeActivity"
-                        USER_ROLE.ADMIN -> "com.toptal.calorie.feature.admin.ui.screen.UserListActivity"
+                        USER_ROLE.ADMIN -> "com.toptal.calorie.feature.admin.ui.screen.userlist.UserListActivity"
                     }
                 )
             )
