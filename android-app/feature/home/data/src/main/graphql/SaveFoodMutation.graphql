@@ -1,5 +1,6 @@
-mutation CreateFoodMutation($name: String!, $calorie: Int!) {
-    createFood(input: {
+mutation CreateFoodMutation($userId: ID, $name: String!, $calorie: Int!) {
+    createFood(userId: $userId,
+        input: {
         name: $name
         calorie: $calorie
     }) {

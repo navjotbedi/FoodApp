@@ -31,12 +31,12 @@ class AddFoodViewModel @Inject constructor(
 
     fun isAdmin() = foodId != null
 
-    fun saveFood(name: String, calorie: String) {
+    fun saveFood(name: String, calorie: String, userId: String?) {
         viewModelScope.launch {
             ((if (isAdmin())
                 foodUseCase.updateFood(foodId!!, name, calorie.toInt())
             else
-                foodUseCase.saveFood(name, calorie.toInt()))
+                foodUseCase.saveFood(name, calorie.toInt(), userId))
                 .map {
                     ResultState.Success(Unit)
                 } as Flow<ResultState<Unit>>)

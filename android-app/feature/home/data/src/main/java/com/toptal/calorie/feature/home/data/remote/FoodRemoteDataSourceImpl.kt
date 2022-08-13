@@ -21,7 +21,7 @@ internal class FoodRemoteDataSourceImpl @Inject constructor(
             } ?: throw Exception(response.errors?.get(0)?.message)
         }
 
-    override fun saveFood(name: String, calorie: Int) = apiServiceCreator.getApolloClient().mutation(CreateFoodMutation(name, calorie)).toFlow()
+    override fun saveFood(name: String, calorie: Int, userId: String?) = apiServiceCreator.getApolloClient().mutation(CreateFoodMutation(Optional.presentIfNotNull(userId), name, calorie)).toFlow()
         .map { it.data?.createFood?.let {} ?: throw Exception(it.errors?.get(0)?.message) }
 
     override fun deleteFood(foodId: String) = apiServiceCreator.getApolloClient().mutation(DeleteFoodMutation(foodId)).toFlow()

@@ -40,7 +40,7 @@ module.exports = gql`
     }
 
     type Mutation{
-        createFood(input: CreateFoodInput!): Food!
+        createFood(userId: ID, input: CreateFoodInput!): Food!
         updateFood(id: ID, input: UpdateFoodInput!): Food!
         deleteFood(id: ID): DeleteFood!
     }

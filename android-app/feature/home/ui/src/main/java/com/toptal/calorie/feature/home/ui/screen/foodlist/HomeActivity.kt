@@ -41,7 +41,9 @@ class HomeActivity : AppCompatActivity() {
         with(binding) {
             swipeRefresh.setOnRefreshListener { loadFoodList() }
             addFoodButton.setOnClickListener {
-                startActivity(Intent(this@HomeActivity, AddFoodActivity::class.java))
+                startActivity(Intent(this@HomeActivity, AddFoodActivity::class.java).apply {
+                    putExtra(USER_ID_INTENT, viewModel.userId)
+                })
             }
         }
         lifecycleScope.launch {
@@ -58,8 +60,8 @@ class HomeActivity : AppCompatActivity() {
         with(binding.foodList) {
             adapter = if (viewModel.isAdmin()) {
                 FoodListAdapter { food ->
-                    startActivity(Intent(this@HomeActivity, AddFoodActivity::class.java).also {
-                        it.putExtra(FOOD_INTENT, Json.encodeToString(FoodUIModel.serializer(), food))
+                    startActivity(Intent(this@HomeActivity, AddFoodActivity::class.java).apply {
+                        putExtra(FOOD_INTENT, Json.encodeToString(FoodUIModel.serializer(), food))
                     })
                 }
             } else FoodListAdapter()

@@ -7,7 +7,7 @@ interface FoodRepository {
     fun fetchFoodList(): Flow<List<FoodDomainModel>>
     fun clearLocalCache(): Flow<Unit>
     fun saveFoodList(userId: String? = null): Flow<Unit>
-    fun saveFood(name: String, calorie: Int): Flow<Unit>
+    fun saveFood(name: String, calorie: Int, userId: String? = null): Flow<Unit>
     fun deleteFood(foodId: String): Flow<Unit>
     fun updateFood(foodId: String, name: String, calorie: Int): Flow<Unit>
 }

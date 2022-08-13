@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:hint="Name"
             android:inputType="text"
+            android:maxLines="1"
             android:text="@{foodModel.name}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,6 +34,7 @@
             android:layout_height="wrap_content"
             android:digits="0123456789"
             android:hint="Calorie"
+            android:maxLines="1"
             android:inputType="numberSigned"
             android:text="@{foodModel.calorie}"
             app:layout_constraintStart_toStartOf="parent"

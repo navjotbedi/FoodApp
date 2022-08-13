@@ -7,7 +7,7 @@ class FoodUseCaseImpl @Inject constructor(private val foodRepository: FoodReposi
     override fun fetchFoodList() = foodRepository.fetchFoodList()
     override fun clearLocalCache() = foodRepository.clearLocalCache()
     override fun saveFoodList(userId: String?) = foodRepository.saveFoodList(userId)
-    override fun saveFood(name: String, calorie: Int) = foodRepository.saveFood(name, calorie)
+    override fun saveFood(name: String, calorie: Int, userId: String?) = foodRepository.saveFood(name, calorie, userId)
     override fun deleteFood(foodId: String) = foodRepository.deleteFood(foodId)
     override fun updateFood(foodId: String, name: String, calorie: Int) = foodRepository.updateFood(foodId, name, calorie)
 }

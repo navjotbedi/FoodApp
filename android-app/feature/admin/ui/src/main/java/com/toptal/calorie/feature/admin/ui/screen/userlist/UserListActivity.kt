@@ -54,7 +54,7 @@ class UserListActivity : AppCompatActivity() {
         with(binding.userList) {
             adapter = UserListAdapter { userId ->
                 startActivity(Intent(this@UserListActivity, Class.forName("com.toptal.calorie.feature.home.ui.screen.foodlist.HomeActivity"))
-                    .also { it.putExtra(USER_ID_INTENT, userId) })
+                    .apply { putExtra(USER_ID_INTENT, userId) })
             }
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
