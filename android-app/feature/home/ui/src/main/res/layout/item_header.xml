@@ -28,7 +28,7 @@
             android:id="@+id/avg_cal_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{headerUIModel.averageCalorie}"
+            android:text="@{`Avg Cal: ` + headerUIModel.averageCalorie}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

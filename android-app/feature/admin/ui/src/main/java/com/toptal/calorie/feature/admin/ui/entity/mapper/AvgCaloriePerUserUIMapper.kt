@@ -6,5 +6,5 @@ import com.toptal.calorie.feature.admin.ui.entity.AvgCaloriePerUserUIModel
 import javax.inject.Inject
 
 class AvgCaloriePerUserUIMapper @Inject constructor() : Mapper<AvgCaloriePerUserDomainModel, AvgCaloriePerUserUIModel>() {
-    override fun map(value: AvgCaloriePerUserDomainModel) = AvgCaloriePerUserUIModel(value.calorie, value.userDomainModel.name)
+    override fun map(value: AvgCaloriePerUserDomainModel) = AvgCaloriePerUserUIModel(String.format("%.2f", value.calorie), value.userDomainModel.name)
 }

@@ -29,18 +29,21 @@ class HomeViewModel @Inject constructor(
 
     fun isAdmin() = userId != null
 
-    fun fetchFoodList() = foodUseCase.fetchFoodList()
-        .map { computeUIModelList(it) }
-        .flowOn(Dispatchers.IO)
-
     @OptIn(FlowPreview::class)
+    fun fetchFoodList(): Flow<List<Any>> {
+        val clearLocalCache = if (initialFetch) {
+            initialFetch = false
+            foodUseCase.clearLocalCache()
+        } else flow { emit(Unit) }
+        return clearLocalCache.flatMapConcat { foodUseCase.fetchFoodList() }
+            .map { computeUIModelList(it) }
+            .flowOn(Dispatchers.IO)
+    }
+
+
     fun saveFoodList() {
         viewModelScope.launch {
-            val clearLocalCache = if (initialFetch) {
-                initialFetch = false
-                foodUseCase.clearLocalCache()
-            } else flow { emit(Unit) }
-            (clearLocalCache.flatMapConcat { foodUseCase.saveFoodList(userId) }
+            (foodUseCase.saveFoodList(userId)
                 .map { ResultState.Success(it) } as Flow<ResultState<Unit>>)
                 .catch {
                     it.printStackTrace()

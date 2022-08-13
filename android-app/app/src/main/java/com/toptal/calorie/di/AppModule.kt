@@ -1,7 +1,6 @@
 package com.toptal.calorie.di
 
 import android.content.Context
-import android.net.ConnectivityManager
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore

@@ -19,14 +19,9 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        checkLoginSession()
 
         setupUI()
         setupListeners()
-    }
-
-    private fun checkLoginSession() {
-        viewModel.fetchLoggedInUserType()
     }
 
     private fun setupListeners() {
@@ -44,13 +39,6 @@ class LoginActivity : AppCompatActivity() {
                     is ResultState.Success -> it.data?.let { userRole -> performNavigation(userRole) }
                     is ResultState.Progress -> loginButton.isEnabled = !it.isLoading
                     is ResultState.Error -> Toast.makeText(this@LoginActivity, it.message, Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            viewModel.currentUserType.observe(this@LoginActivity) {
-                when (it) {
-                    is ResultState.Success -> it.data?.let { userRole -> performNavigation(userRole) }
-                    else -> {}
                 }
             }
         }
