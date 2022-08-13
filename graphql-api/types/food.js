@@ -1,7 +1,5 @@
 const {gql} = require("apollo-server");
 
-
-
 module.exports = gql`
     type Food{
         id: ID!
@@ -13,6 +11,7 @@ module.exports = gql`
 
     type Query{
         foods: [Food]
+        foodReport: FoodReport
     }
 
     input CreateFoodInput{
@@ -27,6 +26,11 @@ module.exports = gql`
 
     type DeleteFood{
         id: ID!
+    }
+    
+    type FoodReport{
+        currentWeek: Int!
+        lastWeek: Int!
     }
 
     type Mutation{
