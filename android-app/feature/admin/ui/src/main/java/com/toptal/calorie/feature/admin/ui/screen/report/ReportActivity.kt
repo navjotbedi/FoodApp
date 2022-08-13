@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.toptal.calorie.core.utils.ResultState
 import com.toptal.calorie.feature.admin.ui.databinding.ActivityReportBinding
-import com.toptal.calorie.feature.admin.ui.screen.userlist.UserListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,19 +28,14 @@ class ReportActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         with(viewModel) {
-            foodReport.observe(this@ReportActivity) {
+            report.observe(this@ReportActivity) {
                 when (it) {
-                    is ResultState.Success -> binding.foodReportModel = it.data
-                    is ResultState.Progress -> {
-
+                    is ResultState.Success -> {
+                        it.data?.let { result ->
+                            binding.foodReportModel = result.first
+                            (binding.userList.adapter as? AvgCaloriePerUserReportListAdapter)?.submitList(result.second)
+                        }
                     }
-                    is ResultState.Error -> Toast.makeText(this@ReportActivity, it.message, Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            userList.observe(this@ReportActivity) {
-                when (it) {
-                    is ResultState.Success -> (binding.userList.adapter as? UserListAdapter)?.submitList(it.data)
                     is ResultState.Progress -> {
 
                     }
@@ -51,6 +47,10 @@ class ReportActivity : AppCompatActivity() {
 
     private fun setupUI() {
         title = "Report"
+        with(binding.userList) {
+            adapter = AvgCaloriePerUserReportListAdapter()
+            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+        }
     }
 
     private fun loadData() {

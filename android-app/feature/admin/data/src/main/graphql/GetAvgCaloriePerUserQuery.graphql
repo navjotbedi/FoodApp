@@ -1,0 +1,9 @@
+query GetAvgCaloriePerUserQuery {
+    avgCaloriesPerUser{
+        avg_cal
+        user {
+            id
+            name
+        }
+    }
+}

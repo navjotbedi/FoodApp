@@ -3,6 +3,7 @@ const queries = require('./queries');
 const {model} = require("mongoose");
 const {Food} = require('../models/food');
 const {User} = require('../models/user');
+const avgCaloriesPerUser = require("./queries/avgCaloriesPerUser");
 
 module.exports = {
     Mutation: {
@@ -19,6 +20,11 @@ module.exports = {
     User: {
         async foods(parent) {
             return Food.find({user: parent._id});
+        }
+    },
+    AvgCaloriesPerUser: {
+        async user(parent) {
+            return User.findById(parent.user._id);
         }
     }
 }

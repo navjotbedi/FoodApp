@@ -12,6 +12,7 @@ module.exports = gql`
     type Query{
         foods: [Food]
         foodReport: FoodReport
+        avgCaloriesPerUser: [AvgCaloriesPerUser]
     }
 
     input CreateFoodInput{
@@ -31,6 +32,11 @@ module.exports = gql`
     type FoodReport{
         currentWeek: Int!
         lastWeek: Int!
+    }
+    
+    type AvgCaloriesPerUser{
+        avg_cal: Float!
+        user: User!
     }
 
     type Mutation{

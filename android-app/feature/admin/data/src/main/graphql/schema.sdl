@@ -35,7 +35,6 @@ type Mutation{
     deleteFood(id: ID): DeleteFood!
 }
 
-
 enum Role {
     ADMIN
     USER
@@ -53,7 +52,13 @@ type FoodReport{
     lastWeek: Int!
 }
 
+type AvgCaloriesPerUser{
+    avg_cal: Float!
+    user: User!
+}
+
 type Query{
     users(id: ID): [User]
     foodReport: FoodReport
+    avgCaloriesPerUser: [AvgCaloriesPerUser]
 }

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.toptal.calorie.feature.admin.ui.databinding.ItemUserBinding
 import com.toptal.calorie.feature.admin.ui.entity.User
 
-class UserListAdapter(private val listener: ((userId: String) -> Unit)?) : ListAdapter<User, UserListAdapter.ViewHolder>(DiffCallback()) {
+class UserListAdapter(private val listener: ((userId: String) -> Unit)? = null) : ListAdapter<User, UserListAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
