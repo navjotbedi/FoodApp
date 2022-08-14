@@ -33,5 +33,5 @@ The SDK is separated into modules with the following structure.
 
 INSTALLATION
 ------------
-* [Android App] (https://git.toptal.com/screening/Navjot-Singh-Bedi/-/blob/develop/android-app/README.md)
-* [GraphQL Backend] (https://git.toptal.com/screening/Navjot-Singh-Bedi/-/blob/develop/graphql-api/README.md)
+* [Android App](https://git.toptal.com/screening/Navjot-Singh-Bedi/-/blob/develop/android-app/README.md)
+* [GraphQL Backend](https://git.toptal.com/screening/Navjot-Singh-Bedi/-/blob/develop/graphql-api/README.md)
