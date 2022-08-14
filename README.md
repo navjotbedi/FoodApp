@@ -3,6 +3,12 @@ Calorie App
 
 Project to demonstrate the android architecture along with the server integration.
 
+DEMO
+--------
+
+App demo can be seen [here](https://git.toptal.com/screening/Navjot-Singh-Bedi/-/blob/develop/android-app/app-demo.mp4).
+
+
 FEATURES
 --------
 * [Login](https://git.toptal.com/screening/Navjot-Singh-Bedi/-/tree/develop/android-app/feature/login)
