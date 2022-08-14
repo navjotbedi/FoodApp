@@ -30,7 +30,6 @@ dependencies {
 
     // Utils
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutineVersion"
-    implementation "androidx.paging:paging-runtime-ktx:$rootProject.pagingVersion"
 
     implementation "com.apollographql.apollo3:apollo-runtime:3.5.0"
     implementation 'com.apollographql.apollo:apollo-coroutines-support:2.5.12'

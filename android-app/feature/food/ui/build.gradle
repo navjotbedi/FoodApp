@@ -46,7 +46,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // Utils
-    implementation "androidx.paging:paging-runtime-ktx:$rootProject.pagingVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3"
 
     // Test
