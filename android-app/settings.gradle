@@ -14,9 +14,9 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Calorie App"
 include ':app'
-include ':feature:home:domain'
-include ':feature:home:data'
-include ':feature:home:ui'
+include ':feature:food:domain'
+include ':feature:food:data'
+include ':feature:food:ui'
 include ':core:network'
 include ':core:utils'
 include ':feature:login:ui'

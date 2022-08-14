@@ -45,8 +45,8 @@ dependencies {
     implementation project(":core:utils")
 
     // Features
-    implementation project(":feature:home:ui")
-    implementation project(":feature:home:data")
+    implementation project(":feature:food:ui")
+    implementation project(":feature:food:data")
     implementation project(":feature:login:ui")
     implementation project(":feature:admin:ui")
 

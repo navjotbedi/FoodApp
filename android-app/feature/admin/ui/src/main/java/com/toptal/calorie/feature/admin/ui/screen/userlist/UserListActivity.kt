@@ -53,7 +53,7 @@ class UserListActivity : AppCompatActivity() {
         title = "Admin Dashboard"
         with(binding.userList) {
             adapter = UserListAdapter { userId ->
-                startActivity(Intent(this@UserListActivity, Class.forName("com.toptal.calorie.feature.home.ui.screen.foodlist.HomeActivity"))
+                startActivity(Intent(this@UserListActivity, Class.forName("com.toptal.calorie.feature.food.ui.screen.foodlist.HomeActivity"))
                     .apply { putExtra(USER_ID_INTENT, userId) })
             }
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))

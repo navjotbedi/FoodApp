@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.toptal.calorie.feature.food.ui">
+
+    <application>
+        <activity
+            android:name=".screen.foodlist.HomeActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".screen.addfood.AddFoodActivity"
+            android:exported="true" />
+    </application>
+
+</manifest>

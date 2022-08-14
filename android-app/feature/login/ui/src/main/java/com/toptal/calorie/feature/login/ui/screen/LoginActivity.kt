@@ -49,7 +49,7 @@ class LoginActivity : AppCompatActivity() {
             Intent(
                 this@LoginActivity, Class.forName(
                     when (userRole) {
-                        USER_ROLE.USER -> "com.toptal.calorie.feature.home.ui.screen.foodlist.HomeActivity"
+                        USER_ROLE.USER -> "com.toptal.calorie.feature.food.ui.screen.foodlist.HomeActivity"
                         USER_ROLE.ADMIN -> "com.toptal.calorie.feature.admin.ui.screen.userlist.UserListActivity"
                     }
                 )

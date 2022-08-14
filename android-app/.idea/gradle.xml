@@ -20,10 +20,10 @@
             <option value="$PROJECT_DIR$/feature/admin/data" />
             <option value="$PROJECT_DIR$/feature/admin/domain" />
             <option value="$PROJECT_DIR$/feature/admin/ui" />
-            <option value="$PROJECT_DIR$/feature/home" />
-            <option value="$PROJECT_DIR$/feature/home/data" />
-            <option value="$PROJECT_DIR$/feature/home/domain" />
-            <option value="$PROJECT_DIR$/feature/home/ui" />
+            <option value="$PROJECT_DIR$/feature/food" />
+            <option value="$PROJECT_DIR$/feature/food/data" />
+            <option value="$PROJECT_DIR$/feature/food/domain" />
+            <option value="$PROJECT_DIR$/feature/food/ui" />
             <option value="$PROJECT_DIR$/feature/login" />
             <option value="$PROJECT_DIR$/feature/login/data" />
             <option value="$PROJECT_DIR$/feature/login/domain" />
