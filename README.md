@@ -17,7 +17,7 @@ FEATURES
 
 STRUCTURE
 ---------
-The App is separated into modules with the following structure.
+The App is separated into modules with the following structure. Clean architecture is being followed.
 
     +----------------------------------------------------+
     |                                                    |
