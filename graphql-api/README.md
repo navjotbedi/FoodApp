@@ -6,9 +6,9 @@ Project to demonstrate the GraphQL with MongoDB server implementation.
 
 This project uses a number of open source projects to work properly:
 
-* [Mongoose] - For networking purposes
-* [Apollo-Server] - Dependency Injection
-* [GraphQL] - Reactive programming
+* [Mongoose] - To connect with mongodb
+* [Apollo-Server] - Server to support graphql
+* [GraphQL] - API connection between client and server
 
 ### Installation
 
