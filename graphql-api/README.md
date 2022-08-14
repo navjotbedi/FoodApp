@@ -12,7 +12,7 @@ This project uses a number of open source projects to work properly:
 
 ### Installation
 
-Calorie API Server can can be started using 'node index.js', or you can also run using any IDE. Open
+Calorie API Server can can be started using ```node index.js```, or you can also run using any IDE. Open
 the project in the IDE, sync the POM file and run the project.
 
 
