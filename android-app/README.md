@@ -6,12 +6,11 @@ Project to demonstrate the android architecture and the latest component usage.
 
 This project uses a number of open source projects to work properly:
 
-* [Retrofit] - For networking purposes
+* [Apollo Client] - For networking purposes
 * [Hilt] - Dependency Injection
 * [RxKotlin] - Reactive programming
 * [Room] - Storing API response to DB
 * [ViewModel] - Used to support MVVM
-* [Moshi] - Serializing and Deserializing JSON
 * [Live Data] - To support UI updates
 
 ### Installation
@@ -19,12 +18,7 @@ This project uses a number of open source projects to work properly:
 Calorie App requires [Android Studio](https://developer.android.com/studio/install) v4+ to run. Open
 the project in Android Studio, sync the gradle file and run the project.
 
-### Todos
-
-- Implement [Fragment Navigation] to support better UI flow
-- Improved network error messages
-
-  [Retrofit]: <https://square.github.io/retrofit/>
+  [Apollo Client]: <https://github.com/apollographql/apollo-kotlin>
 
   [Hilt]: <https://developer.android.com/training/dependency-injection/hilt-android>
 
@@ -33,9 +27,5 @@ the project in Android Studio, sync the gradle file and run the project.
   [Room]: <https://developer.android.com/topic/libraries/architecture/room>
 
   [ViewModel]: <https://developer.android.com/topic/libraries/architecture/viewmodel>
-
-  [Moshi]: <https://github.com/square/moshi>
-
-  [Fragment Navigation]: <https://developer.android.com/jetpack/androidx/releases/navigation>
 
   [Live Data]: <https://developer.android.com/topic/libraries/architecture/livedata>
