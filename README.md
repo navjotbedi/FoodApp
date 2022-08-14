@@ -6,7 +6,7 @@ Project to demonstrate the android architecture along with the server integratio
 DEMO
 --------
 
-App demo can be seen [here](https://git.toptal.com/screening/Navjot-Singh-Bedi/-/blob/develop/android-app/app-demo.mp4).
+App demo can be seen [here](https://git.toptal.com/screening/Navjot-Singh-Bedi/-/raw/develop/android-app/app-demo.mp4).
 
 
 FEATURES
