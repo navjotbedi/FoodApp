@@ -8,13 +8,14 @@ import com.toptal.calorie.feature.home.data.FoodListQuery
 import com.toptal.calorie.feature.home.data.UpdateFoodMutation
 import com.toptal.calorie.feature.home.data.remote.api.FoodApiMapper
 import kotlinx.coroutines.flow.map
+import java.util.*
 import javax.inject.Inject
 
 internal class FoodRemoteDataSourceImpl @Inject constructor(
     private val apiServiceCreator: ApiServiceCreator,
     private val foodApiMapper: FoodApiMapper
 ) : FoodRemoteDataSource {
-    override fun getFoodList(userId: String?) = apiServiceCreator.getApolloClient().query(FoodListQuery(Optional.presentIfNotNull(userId))).toFlow()
+    override fun getFoodList(userId: String?, startDate: Date?, endDate: Date?) = apiServiceCreator.getApolloClient().query(FoodListQuery(Optional.presentIfNotNull(userId))).toFlow()
         .map { response ->
             response.data?.foods?.let { foodList ->
                 foodList.mapNotNull { it?.let { foodApiMapper.map(it) } }

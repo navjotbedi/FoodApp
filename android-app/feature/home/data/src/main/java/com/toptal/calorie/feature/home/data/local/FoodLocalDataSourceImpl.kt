@@ -7,6 +7,7 @@ import com.toptal.calorie.feature.home.domain.entity.FoodDomainModel
 import com.toptal.core.cache.preference.PreferenceCache
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import java.util.*
 import javax.inject.Inject
 
 class FoodLocalDataSourceImpl @Inject constructor(
@@ -16,7 +17,12 @@ class FoodLocalDataSourceImpl @Inject constructor(
 ) : FoodLocalDataSource {
 
     override fun getUserToken() = preferenceCache.getString(Constants.USER_TOKEN_PREF)
-    override fun getFoodList() = foodDao.getFoodList().map { it.map { foodEntity -> foodDbMapper.map(foodEntity) } }
+    override fun getFoodList(startDate: Date?, endDate: Date?) = with(foodDao) {
+        (if (startDate != null && endDate != null)
+            getFoodList(startDate, endDate)
+        else
+            getFoodList()).map { it.map { foodEntity -> foodDbMapper.map(foodEntity) } }
+    }
 
     override fun saveFoodList(foodList: List<FoodDomainModel>) = flow {
         emit(foodList.map {

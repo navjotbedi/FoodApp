@@ -1,5 +1,7 @@
 package com.toptal.calorie.feature.home.ui.screen.foodlist
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.toptal.calorie.core.utils.ResultState
@@ -12,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,7 +22,8 @@ class HomeViewModel @Inject constructor(
     private val foodUseCase: FoodUseCase,
     private val mapper: FoodUIMapper
 ) : ViewModel() {
-    var initialFetch = true
+    private var initialFetch = true
+        private set
     var userId: String? = null
         private set
 
@@ -29,17 +33,22 @@ class HomeViewModel @Inject constructor(
 
     fun isAdmin() = userId != null
 
+    private val _isDateFilterApplied = MutableLiveData<Boolean>()
+    val isDateFilterApplied: LiveData<Boolean> = _isDateFilterApplied
+
     @OptIn(FlowPreview::class)
-    fun fetchFoodList(): Flow<List<Any>> {
-        val clearLocalCache = if (initialFetch) {
+    fun fetchFoodList(startDate: Date? = null, endDate: Date? = null): Flow<List<Any>> {
+        _isDateFilterApplied.value = startDate != null && endDate != null
+        val clearLocalCache = if (initialFetch && startDate == null && endDate == null) {
             initialFetch = false
             foodUseCase.clearLocalCache()
-        } else flow { emit(Unit) }
-        return clearLocalCache.flatMapConcat { foodUseCase.fetchFoodList() }
+        } else {
+            flow { emit(Unit) }
+        }
+        return clearLocalCache.flatMapConcat { foodUseCase.fetchFoodList(startDate, endDate) }
             .map { computeUIModelList(it) }
             .flowOn(Dispatchers.IO)
     }
-
 
     @OptIn(FlowPreview::class)
     fun saveFoodList() {

@@ -2,9 +2,10 @@ package com.toptal.calorie.feature.home.domain.usecase
 
 import com.toptal.calorie.feature.home.domain.entity.FoodDomainModel
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 interface FoodUseCase {
-    fun fetchFoodList(): Flow<List<FoodDomainModel>>
+    fun fetchFoodList(startDate: Date? = null, endDate: Date? = null): Flow<List<FoodDomainModel>>
     fun clearLocalCache(): Flow<Unit>
     fun saveFoodList(userId: String?): Flow<Unit>
     fun saveFood(name: String, calorie: Int, userId: String? = null): Flow<Unit>
