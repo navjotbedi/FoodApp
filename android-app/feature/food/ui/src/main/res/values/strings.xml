@@ -2,4 +2,8 @@
 <resources>
     <string name="calorie_text">Calorie</string>
     <string name="name_text">Name</string>
+    <string name="add_food_title">Add Food</string>
+    <string name="delete_food_text">Delete Food</string>
+    <string name="add_food_text">Add Food</string>
+    <string name="update_food_text">Update Food</string>
 </resources>

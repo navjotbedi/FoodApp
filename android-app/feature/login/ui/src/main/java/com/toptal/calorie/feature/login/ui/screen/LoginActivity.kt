@@ -34,7 +34,7 @@ class LoginActivity : ComponentActivity() {
             CalorieAppTheme {
                 Scaffold(topBar = {
                     TopAppBar(
-                        title = { Text(text = getString(com.toptal.calorie.core.android.R.string.app_name)) }
+                        title = { Text(text = "Calorie App") }
                     )
                 },
                     content = {
