@@ -13,12 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.toptal.calorie.core.android.theme.CalorieAppTheme
 import com.toptal.calorie.core.utils.ResultState
 import com.toptal.calorie.core.utils.USER_ROLE
+import com.toptal.calorie.feature.login.ui.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -53,9 +55,7 @@ class LoginActivity : ComponentActivity() {
 
     @Composable
     private fun LoginScreen() {
-        Column(
-            modifier = Modifier.padding(20.dp)
-        ) {
+        Column(Modifier.padding(20.dp)) {
             TextField(
                 value = viewModel.userToken,
                 onValueChange = {
@@ -64,19 +64,18 @@ class LoginActivity : ComponentActivity() {
                 },
                 maxLines = 1,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                label = { Text("User Token") },
+                label = { Text(stringResource(R.string.user_token_text)) },
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(5.dp))
             Button(onClick = { viewModel.login() }, enabled = viewModel.isLoginEnable) {
                 Text(
-                    text = "Login",
+                    text = stringResource(R.string.login_text),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
         }
-
     }
 
     private fun performNavigation(userRole: USER_ROLE) {

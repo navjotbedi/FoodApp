@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
 
-    var userToken by mutableStateOf("")
+    var userToken by mutableStateOf("62f4134c8ecac10bac5ff4ad")
     var isLoginEnable by mutableStateOf(false)
 
     private val _performLogin = MutableLiveData<ResultState<USER_ROLE>>()
