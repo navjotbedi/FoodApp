@@ -3,14 +3,12 @@ package com.toptal.calorie.feature.food.ui.screen.addfood
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -52,24 +50,27 @@ class AddFoodActivity : ComponentActivity() {
 
     @Composable
     private fun AddFoodScreen() {
+        var foodName by remember { mutableStateOf(viewModel.foodModel.value?.name ?: "") }
+        var calorie by remember { mutableStateOf(viewModel.foodModel.value?.calorie ?: "") }
+
         Column(Modifier.padding(20.dp)) {
             TextField(
-                value = viewModel.foodName,
+                value = foodName,
                 onValueChange = {
                     viewModel.isEnable = it.isNotBlank()
-                    viewModel.foodName = it
+                    foodName = it
                 },
                 maxLines = 1,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                label = { Text("Name") },
+                label = { Text(stringResource(R.string.name_text)) },
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(5.dp))
             TextField(
-                value = viewModel.calorie,
+                value = calorie,
                 onValueChange = {
                     viewModel.isEnable = it.isNotBlank()
-                    viewModel.calorie = it
+                    calorie = it
                 },
                 maxLines = 1,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -77,7 +78,7 @@ class AddFoodActivity : ComponentActivity() {
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(5.dp))
-            Button(onClick = { viewModel.saveFood() }, enabled = !viewModel.isLoading && viewModel.isEnable) {
+            Button(onClick = { viewModel.saveFood(foodName, calorie) }, enabled = !viewModel.isLoading && viewModel.isEnable) {
                 Text(
                     text = stringResource(viewModel.foodButtonText),
                     textAlign = TextAlign.Center,

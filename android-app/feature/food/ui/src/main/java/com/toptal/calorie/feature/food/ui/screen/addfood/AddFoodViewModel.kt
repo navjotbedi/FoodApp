@@ -21,12 +21,12 @@ class AddFoodViewModel @Inject constructor(
     private val foodUseCase: FoodUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
-    private var foodId: String? = null
     private var userId: String? = null
+    private val _addFood by lazy { MutableLiveData<ResultState<Unit>>() }
+    val addFood: LiveData<ResultState<Unit>> = _addFood
+    private val _foodModel by lazy { MutableLiveData<FoodUIModel>() }
+    val foodModel: LiveData<FoodUIModel> = _foodModel
 
-    var foodName by mutableStateOf("")
-    var calorie by mutableStateOf("")
     var isLoading by mutableStateOf(false)
     var isEnable by mutableStateOf(false)
     var foodButtonText by mutableStateOf(R.string.add_food_text)
@@ -34,29 +34,21 @@ class AddFoodViewModel @Inject constructor(
 
     init {
         userId = savedStateHandle.get<String>(Constants.USER_ID_INTENT)
-        val foodUIModel = savedStateHandle.get<String>(Constants.FOOD_INTENT)?.let { Json.decodeFromString(FoodUIModel.serializer(), it) }
-        foodUIModel?.let {
-            foodId = it.id
-            foodName = it.name
-            calorie = it.calorie
+        _foodModel.value = savedStateHandle.get<String>(Constants.FOOD_INTENT)?.let { Json.decodeFromString(FoodUIModel.serializer(), it) }
+        if (foodModel.value != null) {
             isDeleteButtonVisible = true
             isEnable = true
+            foodButtonText = R.string.update_food_text
+        } else {
+            foodButtonText = R.string.add_food_text
         }
-        foodButtonText = if (isAdmin()) R.string.update_food_text else R.string.add_food_text
-        isDeleteButtonVisible = isAdmin()
     }
 
-    private val _addFood = MutableLiveData<ResultState<Unit>>()
-    val addFood: LiveData<ResultState<Unit>> = _addFood
-
-    private fun isAdmin() = foodId != null
-
-    fun saveFood() {
+    fun saveFood(foodName: String, calorie: String) {
         viewModelScope.launch {
-            ((if (isAdmin())
-                foodUseCase.updateFood(foodId!!, foodName, calorie.toInt())
-            else
-                foodUseCase.saveFood(foodName, calorie.toInt(), userId))
+            ((foodModel.value?.id?.let {
+                foodUseCase.updateFood(it, foodName, calorie.toInt())
+            } ?: foodUseCase.saveFood(foodName, calorie.toInt(), userId))
                 .map {
                     ResultState.Success(Unit)
                 } as Flow<ResultState<Unit>>)
@@ -74,20 +66,21 @@ class AddFoodViewModel @Inject constructor(
 
     fun deleteFood() {
         viewModelScope.launch {
-            (foodUseCase.deleteFood(foodId!!)
-                .map {
-                    ResultState.Success(Unit)
-                } as Flow<ResultState<Unit>>)
-                .catch {
-                    it.printStackTrace()
-                    emit(ResultState.Error(it, "Something went wrong!"))
-                }
-                .flowOn(Dispatchers.IO)
-                .onStart { isLoading = true }
-                .onCompletion { isLoading = false }
-                .conflate()
-                .collect { _addFood.value = it }
+            foodModel.value?.id?.let { foodId ->
+                (foodUseCase.deleteFood(foodId)
+                    .map {
+                        ResultState.Success(Unit)
+                    } as Flow<ResultState<Unit>>)
+                    .catch {
+                        it.printStackTrace()
+                        emit(ResultState.Error(it, "Something went wrong!"))
+                    }
+                    .flowOn(Dispatchers.IO)
+                    .onStart { isLoading = true }
+                    .onCompletion { isLoading = false }
+                    .conflate()
+                    .collect { _addFood.value = it }
+            }
         }
     }
-
 }
