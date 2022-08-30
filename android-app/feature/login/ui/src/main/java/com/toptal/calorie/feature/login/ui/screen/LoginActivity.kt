@@ -8,14 +8,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -34,18 +30,23 @@ class LoginActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CalorieAppTheme {
-                TopAppBar(
-                    title = { Text(text = "Calorie App") }
-                )
-
-                val result: ResultState<USER_ROLE>? by viewModel.performLogin.observeAsState(null)
-                result?.let {
-                    when (it) {
-                        is ResultState.Success -> it.data?.let { userRole -> performNavigation(userRole) }
-                        else -> LoginScreen()
-                    }
-                    if (it is ResultState.Error) Toast.makeText(this@LoginActivity, it.message, Toast.LENGTH_SHORT).show()
-                } ?: LoginScreen()
+                Scaffold(topBar = {
+                    TopAppBar(
+                        title = { Text(text = getString(com.toptal.calorie.core.android.R.string.app_name)) }
+                    )
+                },
+                    content = {
+                        Surface(modifier = Modifier.fillMaxSize()) {
+                            val result: ResultState<USER_ROLE>? by viewModel.performLogin.observeAsState(null)
+                            result?.let {
+                                when (it) {
+                                    is ResultState.Success -> it.data?.let { userRole -> performNavigation(userRole) }
+                                    else -> LoginScreen()
+                                }
+                                if (it is ResultState.Error) Toast.makeText(this@LoginActivity, it.message, Toast.LENGTH_SHORT).show()
+                            } ?: LoginScreen()
+                        }
+                    })
             }
         }
     }
@@ -53,9 +54,7 @@ class LoginActivity : ComponentActivity() {
     @Composable
     private fun LoginScreen() {
         Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.padding(20.dp)
         ) {
             TextField(
                 value = viewModel.userToken,
@@ -66,17 +65,18 @@ class LoginActivity : ComponentActivity() {
                 maxLines = 1,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 label = { Text("User Token") },
-                modifier = Modifier.fillMaxWidth(fraction = 0.9f)
+                modifier = Modifier.fillMaxWidth()
             )
             Spacer(Modifier.height(5.dp))
             Button(onClick = { viewModel.login() }, enabled = viewModel.isLoginEnable) {
                 Text(
                     text = "Login",
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth(fraction = 0.9f)
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
+
     }
 
     private fun performNavigation(userRole: USER_ROLE) {

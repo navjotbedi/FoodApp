@@ -1,15 +1,19 @@
 package com.toptal.calorie.core.android.theme
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
+@SuppressLint("ConflictingOnColor")
 private val DarkColorPalette = darkColors(
     primary = Toptal,
     primaryVariant = Toptal,
-    secondary = Toptal
+    secondary = Toptal,
+    onPrimary = Color.White
 )
 
 private val LightColorPalette = lightColors(
