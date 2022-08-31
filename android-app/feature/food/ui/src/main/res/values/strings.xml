@@ -6,4 +6,5 @@
     <string name="delete_food_text">Delete Food</string>
     <string name="add_food_text">Add Food</string>
     <string name="update_food_text">Update Food</string>
+    <string name="food_list_title">Food List</string>
 </resources>
