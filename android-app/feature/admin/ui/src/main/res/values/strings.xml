@@ -1,1 +1,4 @@
-<resources></resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="admin_dashboard_title">Admin Dashboard</string>
+</resources>

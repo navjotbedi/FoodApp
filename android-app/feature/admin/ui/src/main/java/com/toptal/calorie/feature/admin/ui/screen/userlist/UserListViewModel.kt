@@ -1,5 +1,8 @@
 package com.toptal.calorie.feature.admin.ui.screen.userlist
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,8 +23,9 @@ class UserListViewModel @Inject constructor(
     private val mapper: UserUIMapper
 ) : ViewModel() {
 
-    private val _userList = MutableLiveData<ResultState<List<User>>>()
+    private val _userList by lazy { MutableLiveData<ResultState<List<User>>>() }
     val userList: LiveData<ResultState<List<User>>> = _userList
+    var isLoading by mutableStateOf(false)
 
     fun fetchUserList() {
         viewModelScope.launch {
@@ -33,8 +37,8 @@ class UserListViewModel @Inject constructor(
                     emit(ResultState.Error(it, "Something went wrong!"))
                 }
                 .flowOn(Dispatchers.IO)
-                .onStart { emit(ResultState.Progress(true)) }
-                .onCompletion { emit(ResultState.Progress(false)) }
+                .onStart { isLoading = true }
+                .onCompletion { isLoading = false }
                 .conflate()
                 .collect { _userList.value = it }
         }

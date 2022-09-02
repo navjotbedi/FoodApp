@@ -10,8 +10,6 @@ android {
     compileSdk rootProject.compileSdkVersion
 
     buildFeatures {
-        viewBinding true
-        dataBinding true
         compose true
     }
 
