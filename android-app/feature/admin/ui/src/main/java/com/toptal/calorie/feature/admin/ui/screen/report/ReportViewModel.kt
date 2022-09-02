@@ -23,7 +23,7 @@ class ReportViewModel @Inject constructor(
     private val avgCaloriePerUserUIMapper: AvgCaloriePerUserUIMapper
 ) : ViewModel() {
 
-    private val _report = MutableLiveData<ResultState<Pair<FoodReportUIModel, List<AvgCaloriePerUserUIModel>>>>()
+    private val _report by lazy {  MutableLiveData<ResultState<Pair<FoodReportUIModel, List<AvgCaloriePerUserUIModel>>>>() }
     val report: LiveData<ResultState<Pair<FoodReportUIModel, List<AvgCaloriePerUserUIModel>>>> = _report
 
     fun fetchFoodReport() {
@@ -36,10 +36,10 @@ class ReportViewModel @Inject constructor(
                     emit(ResultState.Error(it, "Something went wrong!"))
                 }
                 .flowOn(Dispatchers.IO)
-                .onStart { emit(ResultState.Progress(true)) }
-                .onCompletion { emit(ResultState.Progress(false)) }
                 .conflate()
-                .collect { _report.value = it }
+                .collect {
+                    _report.value = it
+                }
         }
     }
 }

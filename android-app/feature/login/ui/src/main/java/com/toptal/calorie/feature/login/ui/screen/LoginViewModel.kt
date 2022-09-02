@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
-//62f413368ecac10bac5ff4ab  62f4134c8ecac10bac5ff4ad
+    //62f413368ecac10bac5ff4ab  62f4134c8ecac10bac5ff4ad
     var userToken by mutableStateOf("62f4134c8ecac10bac5ff4ad")
     var isLoginEnable by mutableStateOf(false)
 
