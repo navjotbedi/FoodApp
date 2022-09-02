@@ -1,1 +1,7 @@
-<resources></resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="admin_dashboard_title">Admin Dashboard</string>
+    <string name="report_title">Report</string>
+    <string name="food_entries_text">Food Entries Summary</string>
+    <string name="avg_calorie_text">Average Calories per User for last 7 days</string>
+</resources>

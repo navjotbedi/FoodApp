@@ -1,9 +1,10 @@
 package com.toptal.calorie.feature.food.ui.screen.foodlist
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.*
+import com.toptal.calorie.core.utils.Constants
 import com.toptal.calorie.core.utils.ResultState
 import com.toptal.calorie.feature.food.domain.entity.FoodDomainModel
 import com.toptal.calorie.feature.food.domain.usecase.FoodUseCase
@@ -20,34 +21,41 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val foodUseCase: FoodUseCase,
-    private val mapper: FoodUIMapper
+    private val mapper: FoodUIMapper,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private var initialFetch = true
-        private set
     var userId: String? = null
         private set
 
-    fun storeUserId(userId: String?) {
-        this.userId = userId
+    init {
+        userId = savedStateHandle.get<String>(Constants.USER_ID_INTENT)
     }
 
     fun isAdmin() = userId != null
 
-    private val _isDateFilterApplied = MutableLiveData<Boolean>()
-    val isDateFilterApplied: LiveData<Boolean> = _isDateFilterApplied
+    private val _foodList = MutableLiveData<List<Any>>()
+    val foodList: LiveData<List<Any>> = _foodList
+    var isLoading by mutableStateOf(false)
+    var isDateFilterApplied by mutableStateOf(false)
 
     @OptIn(FlowPreview::class)
-    fun fetchFoodList(startDate: Date? = null, endDate: Date? = null): Flow<List<Any>> {
-        _isDateFilterApplied.value = startDate != null && endDate != null
-        val clearLocalCache = if (initialFetch) {
-            initialFetch = false
-            foodUseCase.clearLocalCache()
-        } else {
-            flow { emit(Unit) }
+    fun fetchFoodList(startDate: Date? = null, endDate: Date? = null) {
+        viewModelScope.launch {
+            isDateFilterApplied = startDate != null && endDate != null
+            val clearLocalCache = if (initialFetch) {
+                initialFetch = false
+                foodUseCase.clearLocalCache()
+            } else {
+                flow { emit(Unit) }
+            }
+            clearLocalCache.flatMapConcat { foodUseCase.fetchFoodList(startDate, endDate) }
+                .map { computeUIModelList(it) }
+                .flowOn(Dispatchers.IO)
+                .collect {
+                    _foodList.value = it
+                }
         }
-        return clearLocalCache.flatMapConcat { foodUseCase.fetchFoodList(startDate, endDate) }
-            .map { computeUIModelList(it) }
-            .flowOn(Dispatchers.IO)
     }
 
     @OptIn(FlowPreview::class)
@@ -60,8 +68,8 @@ class HomeViewModel @Inject constructor(
                     emit(ResultState.Error(it, "Something went wrong!"))
                 }
                 .flowOn(Dispatchers.IO)
-                .onStart { emit(ResultState.Progress(true)) }
-                .onCompletion { emit(ResultState.Progress(false)) }
+                .onStart { isLoading = true }
+                .onCompletion { isLoading = false }
                 .conflate()
                 .collect { }
         }
