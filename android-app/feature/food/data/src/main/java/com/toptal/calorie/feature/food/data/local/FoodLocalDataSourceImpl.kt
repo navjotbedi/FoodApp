@@ -28,9 +28,11 @@ class FoodLocalDataSourceImpl @Inject constructor(
         emit(foodList.map {
             foodDbMapper.reverseMap(it)
         })
-    }.map {
-        foodDao.saveFoodList(it)
     }
+        .map {
+            foodDao.nukeTable()
+            foodDao.saveFoodList(it)
+        }
 
     override fun clearTable() = flow { emit(foodDao.nukeTable()) }
 }

@@ -53,7 +53,7 @@ class HomeViewModel @Inject constructor(
     @OptIn(FlowPreview::class)
     fun saveFoodList() {
         viewModelScope.launch {
-            (foodUseCase.clearLocalCache().flatMapConcat { foodUseCase.saveFoodList(userId) }
+            (foodUseCase.saveFoodList(userId)
                 .map { ResultState.Success(it) } as Flow<ResultState<Unit>>)
                 .catch {
                     it.printStackTrace()

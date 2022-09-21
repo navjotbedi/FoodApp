@@ -16,7 +16,5 @@ module.exports = async (_, {}, {models}) => {
             }
     })
 
-    let z = await models.Food.find()
-
     return {currentWeek: currentWeek.length, lastWeek: lastWeek.length};
 }

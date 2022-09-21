@@ -46,7 +46,10 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         with(binding) {
-            swipeRefresh.setOnRefreshListener { loadFoodList() }
+            swipeRefresh.setOnRefreshListener {
+                binding.swipeRefresh.isRefreshing = false
+                loadFoodList()
+            }
             addFoodButton.setOnClickListener {
                 startActivity(Intent(this@HomeActivity, AddFoodActivity::class.java).apply {
                     putExtra(USER_ID_INTENT, viewModel.userId)
